@@ -1,0 +1,225 @@
+---
+import { Image } from 'astro:assets'
+import finance from '../assets/screens/finance.png'
+import studentFees from '../assets/screens/student-fees.png'
+import students from '../assets/screens/students.png'
+import teachers from '../assets/screens/teachers.png'
+import reports from '../assets/screens/reports.png'
+import classes from '../assets/screens/classes.png'
+
+const steps = [
+  {
+    img: finance,
+    path: '/finance',
+    tag: 'Fees register',
+    title: 'Write the receipt. Funda does the maths.',
+    body: 'Record each payment from the receipt book in seconds. Totals, balances and the collection rate update the moment you save.',
+    points: ['Receipt number, fee type, amount, date', 'Filter by day or by who recorded it', 'Reprint any receipt as a PDF'],
+    alt: 'Funda finance page: total collected, outstanding and collection rate above a payments table',
+  },
+  {
+    img: studentFees,
+    path: '/students/tinashe-mutasa',
+    tag: 'Student record',
+    title: 'One page per child. Every dollar on it.',
+    body: 'A permanent student number links fees, notes and class history — from ECD all the way to graduation.',
+    points: ['Expected, paid and balance at a glance', 'Full statement for parents, any year', 'Class history kept forever'],
+    alt: 'Student profile with fee breakdown, amounts paid and balances',
+  },
+  {
+    img: students,
+    path: '/students',
+    tag: 'Students',
+    title: 'Find any student in a second.',
+    body: 'Search by name or student number, filter by grade, and move the whole school up a grade at year end in one action.',
+    points: ['Registration with guardian contacts', 'Year-end promotion and alumni', 'Returning students reactivated, history intact'],
+    alt: 'Students list with class and status',
+  },
+  {
+    img: classes,
+    path: '/classes',
+    tag: 'Classes',
+    title: 'Grades, streams and class teachers.',
+    body: 'Set up Grade 1 Red, Form 2 Blue — whatever your school uses — and assign a teacher to each for the year.',
+    points: ['Streams that change year to year', 'Teachers see only their own class'],
+    alt: 'Class assignments grid showing each grade and stream with its class teacher',
+  },
+  {
+    img: teachers,
+    path: '/teachers',
+    tag: 'Staff',
+    title: 'Extra duties, one switch away.',
+    body: 'Create staff accounts and turn on responsibilities per teacher — no IT department needed.',
+    points: ['Fees Officer, Senior Teacher, Student Registrar', 'One-click password reset'],
+    alt: 'Staff list with role and permission badges',
+  },
+  {
+    img: reports,
+    path: '/reports',
+    tag: 'Reports',
+    title: 'The numbers the headmaster asks for.',
+    body: 'Print-ready PDFs on your own letterhead, with your bank and Ecocash details in the footer.',
+    points: ['Collection summary and outstanding balances by class', 'Payment register and audit report'],
+    alt: 'Reports page with four PDF reports',
+  },
+]
+---
+
+<section class="tour on-ink" id="tour">
+  <div class="wrap">
+    <div class="tour-head" data-reveal>
+      <span class="kicker">A tour of the school office</span>
+      <h2 class="display h2">Everything you need. <em>Nothing</em> you don't.</h2>
+    </div>
+
+    <div class="tour-grid">
+      <ol class="tour-steps">
+        {
+          steps.map((s, i) => (
+            <li class="tour-step" data-step={i}>
+              <span class="tour-num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="tour-tag">{s.tag}</span>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+              <ul>
+                {s.points.map((p) => (
+                  <li>{p}</li>
+                ))}
+              </ul>
+              <div class="tour-inline">
+                <Image src={s.img} alt={s.alt} widths={[640, 1100]} sizes="100vw" loading="lazy" />
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="tour-sticky" aria-hidden="true">
+        <div class="tour-frame">
+          <div class="tf-bar">
+            <i></i><i></i><i></i>
+            <span class="tf-url">riverview.funda360.africa<b id="tf-path">{steps[0].path}</b></span>
+          </div>
+          <div class="tf-screens">
+            {
+              steps.map((s, i) => (
+                <Image
+                  src={s.img}
+                  alt=""
+                  widths={[900, 1400, 2000]}
+                  sizes="(max-width: 1200px) 60vw, 720px"
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  class:list={['tf-img', { active: i === 0 }]}
+                  data-img={i}
+                />
+              ))
+            }
+          </div>
+        </div>
+        <div class="tour-dots">
+          {steps.map((_, i) => <span class:list={{ active: i === 0 }} data-dot={i} />)}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ paths: steps.map((s) => s.path) }}>
+  const stepsEls = document.querySelectorAll('.tour-step')
+  const imgs = document.querySelectorAll('.tf-img')
+  const dots = document.querySelectorAll('[data-dot]')
+  const pathEl = document.getElementById('tf-path')
+
+  const setActive = (i) => {
+    stepsEls.forEach((el, j) => el.classList.toggle('active', i === j))
+    imgs.forEach((el, j) => el.classList.toggle('active', i === j))
+    dots.forEach((el, j) => el.classList.toggle('active', i === j))
+    pathEl.textContent = paths[i]
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) if (e.isIntersecting) setActive(Number(e.target.dataset.step))
+    },
+    { rootMargin: '-45% 0px -45% 0px' },
+  )
+  stepsEls.forEach((el) => io.observe(el))
+  setActive(0)
+</script>
+
+<style is:global>
+  .tour { position: relative; background: var(--ink); color: #fff; padding: 140px 0 120px; }
+  .tour::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(700px 500px at 80% 10%, rgba(31, 94, 255, 0.22), transparent 60%);
+    pointer-events: none;
+  }
+  .tour .kicker { color: var(--muted-ink); }
+  .tour-head { position: relative; max-width: 760px; margin-bottom: 40px; }
+  .tour-head .h2 { margin-top: 20px; }
+  .tour-head em { color: var(--blue-2); }
+
+  .tour-grid { position: relative; display: grid; grid-template-columns: 4.2fr 7.8fr; gap: 64px; }
+  .tour-steps { list-style: none; }
+  .tour-step {
+    min-height: 74vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 26px;
+    border-left: 1px solid var(--ink-line);
+    opacity: 0.32;
+    transition: opacity 0.5s var(--ease);
+    position: relative;
+  }
+  .tour-step::before {
+    content: '';
+    position: absolute;
+    left: -1px;
+    top: 50%;
+    width: 2px;
+    height: 0;
+    background: var(--blue-2);
+    transform: translateY(-50%);
+    transition: height 0.6s var(--ease);
+  }
+  .tour-step.active { opacity: 1; }
+  .tour-step.active::before { height: 60%; }
+  .tour-num { font-family: var(--mono); font-size: 13px; color: var(--muted-ink); }
+  .tour-tag { display: block; margin-top: 18px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue-2); }
+  .tour-step h3 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 3vw, 40px); line-height: 1.05; margin: 12px 0 14px; }
+  .tour-step p { color: var(--muted-ink); font-size: 16.5px; }
+  .tour-step ul { list-style: none; margin-top: 20px; display: grid; gap: 9px; font-size: 15px; color: #d6dcea; }
+  .tour-step ul li { display: flex; gap: 12px; }
+  .tour-step ul li::before { content: ''; flex: none; width: 14px; height: 1px; margin-top: 11px; background: var(--blue-2); }
+  .tour-inline { display: none; }
+
+  .tour-sticky { position: sticky; top: 13vh; height: fit-content; align-self: start; margin-top: 12vh; }
+  .tour-frame {
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--ink-2);
+    box-shadow: 0 50px 100px -30px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--ink-line), 0 0 120px -40px rgba(76, 130, 255, 0.5);
+  }
+  .tf-bar { display: flex; align-items: center; gap: 7px; height: 40px; padding: 0 16px; background: var(--ink-3); }
+  .tf-bar i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.16); }
+  .tf-url { margin: 0 auto; padding: 4px 16px; border-radius: 8px; background: rgba(255, 255, 255, 0.06); font-family: var(--mono); font-size: 12px; color: var(--muted-ink); }
+  .tf-url b { font-weight: 400; color: #fff; }
+  .tf-screens { position: relative; aspect-ratio: 16 / 10; background: #f6f8fb; }
+  .tf-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; opacity: 0; transform: scale(1.03); transition: opacity 0.6s var(--ease), transform 0.9s var(--ease); }
+  .tf-img.active { opacity: 1; transform: none; }
+  .tour-dots { display: flex; justify-content: center; gap: 8px; margin-top: 22px; }
+  .tour-dots span { width: 6px; height: 6px; border-radius: 6px; background: rgba(255, 255, 255, 0.2); transition: width 0.4s var(--ease), background 0.4s; }
+  .tour-dots span.active { width: 26px; background: var(--blue-2); }
+
+  @media (max-width: 960px) {
+    .tour { padding: 100px 0 60px; }
+    .tour-grid { grid-template-columns: 1fr; }
+    .tour-sticky { display: none; }
+    .tour-step { min-height: 0; opacity: 1; padding: 40px 0 40px 22px; }
+    .tour-step::before { height: 40%; }
+    .tour-inline { display: block; margin-top: 28px; border-radius: 12px; overflow: hidden; box-shadow: 0 0 0 1px var(--ink-line); }
+  }
+</style>

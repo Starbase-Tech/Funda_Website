@@ -1,0 +1,37 @@
+---
+import Logo from './Logo.astro'
+---
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-big display" aria-hidden="true">Funda</div>
+    <div class="foot-row">
+      <Logo light />
+      <nav aria-label="Footer">
+        <a href="#tour">Product</a>
+        <a href="#roles">Permissions</a>
+        <a href="#features">Features</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <span>© {new Date().getFullYear()} Funda · Made in Zimbabwe</span>
+    </div>
+  </div>
+</footer>
+
+<style is:global>
+  .foot { background: var(--ink); color: var(--muted-ink); padding: 40px 0 36px; overflow: hidden; }
+  .foot-big {
+    font-size: clamp(120px, 26vw, 380px);
+    line-height: 0.8;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 30px;
+    user-select: none;
+  }
+  .foot-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: 14px; padding-top: 28px; border-top: 1px solid var(--ink-line); }
+  .foot-row nav { display: flex; gap: 26px; }
+  .foot-row nav a:hover { color: #fff; }
+</style>

@@ -1,0 +1,222 @@
+---
+const roles = [
+  { id: 'head', label: 'Headmaster', desc: 'Sees everything — and is the only person who can edit or delete a payment.', sees: ['general', 'disc', 'pay', 'med', 'fees'] },
+  { id: 'deputy', label: 'Deputy Head', desc: 'Full access to student records, notes and fees. Billing stays with the head.', sees: ['general', 'disc', 'pay', 'med', 'fees'] },
+  { id: 'teacher', label: 'Class Teacher', desc: 'General notes for their own class. Nothing about fees, discipline or health.', sees: ['general'] },
+  { id: 'fees', label: 'Fees Officer', desc: 'A teacher with the fees switch on: payments and payment arrangements — never discipline.', sees: ['general', 'pay', 'fees'] },
+  { id: 'senior', label: 'Senior Teacher', desc: 'Senior master or senior lady: discipline and general notes for every student. Fees stay hidden.', sees: ['general', 'disc'] },
+]
+
+const notes = [
+  { id: 'general', type: 'General', tone: 'blue', text: 'Selected for the district athletics team — 100m and relay. Consent form received.', by: 'Mrs C. Dube', date: '22 Sep' },
+  { id: 'disc', type: 'Disciplinary', tone: 'red', text: 'Spoken to about late arrival after break. Class teacher to monitor for two weeks.', by: 'Mrs N. Mutasa', date: '14 Jun' },
+  { id: 'pay', type: 'Payment arrangement', tone: 'amber', text: 'Mother will clear the $60 balance in two instalments of $30.', by: 'Mr F. Ncube', date: '9 Oct', follow: 'Follow up 31 Oct' },
+  { id: 'med', type: 'Medical', tone: 'green', text: 'Mild asthma — keeps an inhaler in his school bag. May sit out long runs.', by: 'Mrs R. Chikwanha', date: '3 Feb' },
+]
+const lock = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>`
+---
+
+<section class="roles" id="roles">
+  <div class="wrap">
+    <div class="roles-head" data-reveal>
+      <div>
+        <span class="kicker">Permissions</span>
+        <h2 class="display h2">Who sees what.<br /><em>Decided for you.</em></h2>
+      </div>
+      <p>
+        Fees, discipline and medical notes all live on the same student record — but each person on staff only
+        sees what their role needs. Pick a role to see Tinashe's record through their eyes.
+      </p>
+    </div>
+
+    <div class="roles-ui" data-reveal style="--d:.1s">
+      <div class="roles-tabs" role="tablist" aria-label="Staff role">
+        <span class="roles-pill" aria-hidden="true"></span>
+        {roles.map((r, i) => (
+          <button role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-role={r.id}>{r.label}</button>
+        ))}
+      </div>
+      <p class="roles-desc" id="roles-desc" aria-live="polite">{roles[0].desc}</p>
+
+      <div class="roles-grid">
+        <div class="rc rc-student">
+          <div class="rc-av">TM</div>
+          <div>
+            <div class="rc-name">Tinashe Mutasa</div>
+            <div class="rc-meta">S202600110 · Grade 5 Blue</div>
+          </div>
+          <div class="rc-count"><b id="roles-count">5 of 5</b> visible</div>
+        </div>
+
+        {notes.map((n) => (
+          <article class="rc" data-card={n.id}>
+            <div class="rc-inner">
+              <div class="rc-top">
+                <span class={`badge badge-${n.tone}`}>{n.type}</span>
+                <span class="rc-date">{n.date}</span>
+              </div>
+              <p>{n.text}</p>
+              {n.follow && <span class="rc-follow">{n.follow}</span>}
+              <span class="rc-by">— {n.by}</span>
+            </div>
+            <div class="rc-lock"><Fragment set:html={lock} /><span>Hidden from <b class="rc-role">you</b></span></div>
+          </article>
+        ))}
+
+        <article class="rc rc-fees" data-card="fees">
+          <div class="rc-inner">
+            <div class="rc-top">
+              <span class="badge badge-ink">Fees · Term 3</span>
+              <span class="rc-date">USD</span>
+            </div>
+            <div class="rc-fee-row"><span>Paid</span><b>$255</b></div>
+            <div class="rc-bar"><span style="width:77%"></span></div>
+            <div class="rc-fee-row"><span>Balance</span><b class="neg">$75</b></div>
+          </div>
+          <div class="rc-lock"><Fragment set:html={lock} /><span>Hidden from <b class="rc-role">you</b></span></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ roles }}>
+  const tabs = document.querySelectorAll('[data-role]')
+  const pill = document.querySelector('.roles-pill')
+  const desc = document.getElementById('roles-desc')
+  const count = document.getElementById('roles-count')
+  const cards = document.querySelectorAll('[data-card]')
+  const section = document.getElementById('roles')
+  let current = 0
+  let auto = true
+  let inView = false
+
+  function select(i) {
+    current = i
+    const r = roles[i]
+    tabs.forEach((t, j) => t.setAttribute('aria-selected', String(i === j)))
+    const t = tabs[i]
+    pill.style.width = `${t.offsetWidth}px`
+    pill.style.transform = `translateX(${t.offsetLeft - 6}px)`
+    desc.textContent = r.desc
+    let visible = 0
+    cards.forEach((c, k) => {
+      const ok = r.sees.includes(c.dataset.card)
+      if (ok) visible++
+      c.classList.toggle('locked', !ok)
+      c.style.setProperty('--k', k)
+      c.querySelector('.rc-role').textContent = r.label === 'Class Teacher' ? 'class teachers' : `${r.label}s`
+    })
+    count.textContent = `${visible} of ${cards.length}`
+  }
+
+  tabs.forEach((t, i) =>
+    t.addEventListener('click', () => {
+      auto = false
+      select(i)
+    }),
+  )
+  new IntersectionObserver(([e]) => (inView = e.isIntersecting), { threshold: 0.3 }).observe(section)
+  window.addEventListener('resize', () => select(current))
+  select(0)
+
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    setInterval(() => {
+      if (auto && inView && !document.hidden) select((current + 1) % roles.length)
+    }, 3600)
+  }
+</script>
+
+<style is:global>
+  .roles { padding: 140px 0; position: relative; }
+  .roles-head { display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px; align-items: end; margin-bottom: 56px; }
+  .roles-head .h2 { margin-top: 20px; }
+  .roles-head em { color: var(--blue); }
+  .roles-head p { color: var(--muted); font-size: 17.5px; max-width: 460px; }
+
+  .roles-tabs {
+    position: relative;
+    display: inline-flex;
+    flex-wrap: wrap;
+    padding: 6px;
+    border-radius: 999px;
+    background: var(--card);
+    box-shadow: inset 0 0 0 1px var(--paper-line);
+  }
+  .roles-tabs button { position: relative; z-index: 1; height: 42px; padding: 0 20px; border-radius: 999px; font-size: 14.5px; font-weight: 500; color: var(--muted); transition: color 0.3s; }
+  .roles-tabs button[aria-selected='true'] { color: #fff; }
+  .roles-pill { position: absolute; left: 6px; top: 6px; height: 42px; border-radius: 999px; background: var(--ink); transition: transform 0.5s var(--ease), width 0.5s var(--ease); }
+  .roles-desc { margin: 18px 0 34px; font-size: 16px; color: var(--text); min-height: 1.6em; }
+
+  .roles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .rc {
+    position: relative;
+    border-radius: 18px;
+    background: var(--card);
+    box-shadow: 0 0 0 1px var(--paper-line), 0 20px 40px -30px rgba(60, 45, 20, 0.35);
+    overflow: hidden;
+    min-height: 196px;
+    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  }
+  .rc:not(.locked):not(.rc-student):hover { transform: translateY(-4px); box-shadow: 0 0 0 1px var(--paper-line), 0 30px 50px -30px rgba(60, 45, 20, 0.5); }
+  .rc-inner { padding: 22px 22px 20px; height: 100%; display: flex; flex-direction: column; transition: filter 0.5s var(--ease), opacity 0.5s var(--ease); transition-delay: calc(var(--k, 0) * 40ms); }
+  .rc p { font-size: 15.5px; margin: 14px 0 12px; }
+  .rc-top { display: flex; justify-content: space-between; align-items: center; }
+  .rc-date { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .rc-by { margin-top: auto; font-size: 13px; color: var(--muted); }
+  .rc-follow { align-self: flex-start; margin-bottom: 10px; font-size: 12.5px; font-weight: 500; color: #a8640a; }
+
+  .badge { display: inline-flex; align-items: center; height: 26px; padding: 0 11px; border-radius: 999px; font-size: 12.5px; font-weight: 500; }
+  .badge-blue { background: var(--blue-soft); color: var(--blue); }
+  .badge-red { background: #fde7e8; color: var(--red); }
+  .badge-amber { background: #fdf0d9; color: #a8640a; }
+  .badge-green { background: #dcf5e9; color: #0b7a4b; }
+  .badge-ink { background: var(--ink); color: #fff; }
+
+  .rc-lock {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--muted);
+    background: repeating-linear-gradient(135deg, rgba(221, 213, 196, 0.25) 0 10px, transparent 10px 20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s var(--ease);
+    transition-delay: calc(var(--k, 0) * 40ms);
+  }
+  .rc-lock svg { width: 26px; height: 26px; padding: 10px; box-sizing: content-box; border-radius: 50%; background: var(--card); box-shadow: 0 0 0 1px var(--paper-line); transform: scale(0.6); transition: transform 0.5s cubic-bezier(0.5, 1.8, 0.6, 1); }
+  .rc-lock b { color: var(--text); font-weight: 600; }
+  .rc.locked .rc-inner { filter: blur(7px); opacity: 0.45; }
+  .rc.locked .rc-lock { opacity: 1; }
+  .rc.locked .rc-lock svg { transform: none; }
+
+  .rc-student { display: flex; flex-direction: column; justify-content: space-between; padding: 22px; background: var(--ink); color: #fff; box-shadow: none; }
+  .rc-av { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: var(--blue); font-weight: 600; margin-bottom: 18px; }
+  .rc-name { font-family: var(--serif); font-size: 30px; line-height: 1; }
+  .rc-meta { font-family: var(--mono); font-size: 12.5px; color: var(--muted-ink); margin-top: 8px; }
+  .rc-count { margin-top: 24px; font-size: 13.5px; color: var(--muted-ink); }
+  .rc-count b { color: #5ee0a5; font-weight: 600; }
+
+  .rc-fee-row { display: flex; justify-content: space-between; font-size: 14.5px; color: var(--muted); margin-top: 18px; }
+  .rc-fee-row b { font-family: var(--serif); font-weight: 400; font-size: 30px; color: var(--text); line-height: 1; }
+  .rc-fee-row b.neg { color: var(--red); }
+  .rc-bar { height: 6px; border-radius: 6px; background: var(--paper-2); margin-top: 12px; overflow: hidden; }
+  .rc-bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--blue), var(--green)); border-radius: inherit; }
+
+  @media (max-width: 960px) {
+    .roles { padding: 100px 0; }
+    .roles-head { grid-template-columns: 1fr; gap: 20px; }
+    .roles-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 620px) {
+    .roles-tabs { display: flex; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; }
+    .roles-tabs button { flex: none; padding: 0 16px; }
+    .roles-grid { grid-template-columns: 1fr; }
+    .rc { min-height: 0; }
+  }
+</style>

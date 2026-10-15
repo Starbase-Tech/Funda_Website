@@ -1,0 +1,83 @@
+---
+// Contact details — replace with the real ones before launch.
+const EMAIL = 'hello@funda360.africa'
+const WHATSAPP = '263000000000'
+
+const steps = [
+  ['We set up your school', 'Your own web address and private database, ready the same week.'],
+  ['We load your data', 'Classes, streams, fee types and staff accounts — done with you.'],
+  ['You record the first receipt', 'Your bursar is recording payments from day one.'],
+]
+const ring = 'FLAT FEE PER TERM · NO PER-USER PRICING · '
+---
+
+<section class="cta grain" id="contact">
+  <div class="wrap">
+    <div class="cta-top" data-reveal>
+      <h2 class="display cta-title">Let's put your school<br />on <em>Funda.</em></h2>
+      <div class="cta-badge" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <defs><path id="ring" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" /></defs>
+          <text><textPath href="#ring">{ring + ring}</textPath></text>
+        </svg>
+        <span>$</span>
+      </div>
+    </div>
+
+    <ol class="cta-steps">
+      {
+        steps.map(([t, d], i) => (
+          <li data-reveal style={`--d:${i * 0.1}s`}>
+            <span class="cta-n">{i + 1}</span>
+            <h3>{t}</h3>
+            <p>{d}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="cta-actions" data-reveal>
+      <a class="btn" href={`mailto:${EMAIL}?subject=Funda%20demo`}>
+        Book a demo
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+      <a class="btn btn-line" href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener">Chat on WhatsApp</a>
+      <span class="cta-mail">or email <a href={`mailto:${EMAIL}`}>{EMAIL}</a></span>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .cta { position: relative; padding: 150px 0 130px; overflow: hidden; }
+  .cta-top { position: relative; display: flex; justify-content: space-between; align-items: center; gap: 40px; }
+  .cta-title { font-size: clamp(56px, 9vw, 132px); }
+  .cta-title em { color: var(--blue); }
+  .cta-badge { position: relative; flex: none; width: 180px; height: 180px; display: grid; place-items: center; }
+  .cta-badge svg { position: absolute; inset: 0; animation: spin 18s linear infinite; }
+  .cta-badge text { font-family: var(--mono); font-size: 13px; letter-spacing: 0.18em; fill: var(--text); }
+  .cta-badge span { width: 92px; height: 92px; border-radius: 50%; display: grid; place-items: center; background: var(--blue); color: #fff; font-family: var(--serif); font-size: 46px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .cta-steps { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 80px 0 64px; border-top: 1px solid var(--paper-line); }
+  .cta-steps li { padding: 32px 32px 0 0; }
+  .cta-steps li + li { padding-left: 32px; border-left: 1px solid var(--paper-line); }
+  .cta-n { font-family: var(--mono); font-size: 13px; color: var(--blue); }
+  .cta-steps h3 { font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1.1; margin: 12px 0 8px; }
+  .cta-steps p { color: var(--muted); font-size: 15.5px; }
+
+  .cta-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .cta-mail { margin-left: 12px; font-size: 14.5px; color: var(--muted); }
+  .cta-mail a { color: var(--text); border-bottom: 1px solid var(--paper-line); }
+
+  @media (max-width: 860px) {
+    .cta { padding: 100px 0; }
+    .cta-badge { width: 130px; height: 130px; }
+    .cta-badge span { width: 64px; height: 64px; font-size: 32px; }
+    .cta-steps { grid-template-columns: 1fr; }
+    .cta-steps li, .cta-steps li + li { padding: 26px 0; border-left: 0; border-bottom: 1px solid var(--paper-line); }
+    .cta-mail { margin-left: 0; width: 100%; }
+  }
+  @media (max-width: 560px) {
+    .cta-badge { display: none; }
+  }
+</style>

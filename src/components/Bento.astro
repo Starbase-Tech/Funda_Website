@@ -1,0 +1,418 @@
+---
+const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>`
+const cross = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>`
+---
+
+<section class="bento on-ink" id="features">
+  <div class="wrap">
+    <div class="bento-head" data-reveal>
+      <span class="kicker">The details that matter</span>
+      <h2 class="display h2">Built for how Zimbabwean schools <em>actually</em> run.</h2>
+    </div>
+
+    <div class="bento-grid">
+      <!-- Currencies -->
+      <article class="bc bc-cur span-4" data-reveal>
+        <div class="bc-copy">
+          <h3>Two currencies. Never blended.</h3>
+          <p>USD and ZiG fees are tracked and reported separately, so your totals always mean something.</p>
+        </div>
+        <div class="cur-ui">
+          <div class="cur-toggle" role="group" aria-label="Currency">
+            <span class="cur-pill" aria-hidden="true"></span>
+            <button data-cur="0" aria-pressed="true">USD</button>
+            <button data-cur="1" aria-pressed="false">ZiG</button>
+          </div>
+          <div class="cur-stats">
+            <div><span>Collected</span><b><i class="cur-sym">$</i><i data-n="collected">111,485</i></b></div>
+            <div><span>Outstanding</span><b><i class="cur-sym">$</i><i data-n="outstanding">25,435</i></b></div>
+            <div><span>Rate</span><b><i data-n="rate">81</i>%</b></div>
+          </div>
+          <div class="cur-bars">
+            {['Term 1', 'Term 2', 'Term 3'].map((t, i) => (
+              <div class="cur-bar">
+                <div class="cur-track">
+                  <span style={`height:${([94, 88, 81][i] - 50) * 2}%`} data-bar={i}>
+                    <em data-bv={i}>{[94, 88, 81][i]}%</em>
+                  </span>
+                </div>
+                <small>{t}</small>
+              </div>
+            ))}
+          </div>
+        </div>
+      </article>
+
+      <!-- Verification -->
+      <article class="bc bc-verify span-2" data-reveal style="--d:.1s">
+        <div class="bc-copy">
+          <h3>Receipts you can verify.</h3>
+          <p>Every receipt carries a signed code. Altered copies don't match.</p>
+        </div>
+        <div class="ver-ui">
+          <div class="ver-doc">
+            <div class="ver-line"><span>Receipt</span><b>Nº 4822</b></div>
+            <div class="ver-line"><span>Tuition</span><b class="ver-amt"><s>$120.00</s><ins>$210.00</ins></b></div>
+            <div class="ver-code">Verify: <span>7F3A-91C2-0B4E</span></div>
+          </div>
+          <div class="ver-result">
+            <span class="ok"><Fragment set:html={check} />Genuine — matches the record</span>
+            <span class="bad"><Fragment set:html={cross} />Altered — amount was changed</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Audit -->
+      <article class="bc bc-audit span-2" data-reveal>
+        <div class="bc-copy">
+          <h3>Every change on record.</h3>
+          <p>Who did what, to which record, and when. Nothing is ever silently deleted.</p>
+        </div>
+        <ul class="audit-feed" id="audit-feed"></ul>
+      </article>
+
+      <!-- Year end -->
+      <article class="bc bc-year span-4" data-reveal style="--d:.1s">
+        <div class="bc-copy">
+          <h3>Year end in one click.</h3>
+          <p>Promote the whole school, graduate Grade 7s to alumni, and keep every record — payments, notes, history — tied to the same student.</p>
+          <button class="year-btn" id="year-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>
+            Run it again
+          </button>
+        </div>
+        <div class="year-ui" id="year-ui">
+          {[
+            ['Tafadzwa Moyo', 'ECD-B', 'Grade 1'],
+            ['Ruvimbo Sibanda', 'Grade 3', 'Grade 4'],
+            ['Tinashe Mutasa', 'Grade 5', 'Grade 6'],
+            ['Nokuthula Mpofu', 'Grade 7', 'Alumni 2026'],
+          ].map(([n, a, b], i) => (
+            <div class="yr" style={`--i:${i}`}>
+              <span class="yr-name">{n}</span>
+              <span class:list={['yr-chip', { grad: b.startsWith('Alumni') }]}>
+                <span class="yr-a">{a}</span>
+                <span class="yr-b">{b}</span>
+              </span>
+            </div>
+          ))}
+          <div class="yr-sum"><b data-yc="412">0</b> promoted · <b data-yc="58">0</b> graduated · <b>0</b> records lost</div>
+        </div>
+      </article>
+
+      <!-- Isolation -->
+      <article class="bc bc-db span-3" data-reveal>
+        <div class="bc-copy">
+          <h3>Your school, your own database.</h3>
+          <p>Each school gets a private database and its own web address. Your records never sit next to another school's.</p>
+        </div>
+        <svg class="db-svg" viewBox="0 0 420 170" aria-hidden="true">
+          {[60, 210, 360].map((x, i) => (
+            <g>
+              <path class="db-flow" d={`M${x} 52 V 104`} style={`--i:${i}`} />
+              <rect x={x - 54} y="14" width="108" height="38" rx="10" class="db-node" />
+              <text x={x} y="38" text-anchor="middle" class="db-txt">{['riverview', 'stmarys', 'mtpleasant'][i]}</text>
+              <ellipse cx={x} cy="112" rx="34" ry="9" class="db-cyl" />
+              <path d={`M${x - 34} 112 v34 a34 9 0 0 0 68 0 v-34`} class="db-cyl" />
+              <path d={`M${x - 34} 128 a34 9 0 0 0 68 0`} class="db-cyl-line" />
+            </g>
+          ))}
+          <path d="M135 10 V 160 M285 10 V 160" class="db-wall" />
+        </svg>
+      </article>
+
+      <!-- Documents -->
+      <article class="bc bc-docs span-3" data-reveal style="--d:.1s">
+        <div class="bc-copy">
+          <h3>Documents on your letterhead.</h3>
+          <p>Receipts, parent statements and reports — with your logo, stamp, bank and Ecocash details.</p>
+        </div>
+        <div class="docs-stack">
+          {['Fee statement', 'Outstanding balances', 'Official receipt'].map((t, i) => (
+            <div class="doc" style={`--i:${i}`}>
+              <div class="doc-head"><span class="doc-logo" /><span><b>Riverview Primary</b><small>{t}</small></span></div>
+              <div class="doc-lines"><i /><i /><i /><i /><i /></div>
+              <div class="doc-foot"><span>CBZ · 0112345678</span><span class="doc-stamp">PAID</span></div>
+            </div>
+          ))}
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<script>
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const onView = (el: Element, cb: (v: boolean) => void, threshold = 0.4) =>
+    new IntersectionObserver(([e]) => cb(e.isIntersecting), { threshold }).observe(el)
+
+  // Cursor spotlight on cards
+  document.querySelectorAll<HTMLElement>('.bc').forEach((card) => {
+    card.addEventListener('pointermove', (e) => {
+      const r = card.getBoundingClientRect()
+      card.style.setProperty('--mx', `${e.clientX - r.left}px`)
+      card.style.setProperty('--my', `${e.clientY - r.top}px`)
+    })
+  })
+
+  function tween(el: HTMLElement, to: number, ms = 900) {
+    const from = Number(el.textContent!.replace(/,/g, '')) || 0
+    const start = performance.now()
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / ms)
+      el.textContent = Math.round(from + (to - from) * (1 - Math.pow(1 - t, 3))).toLocaleString('en-US')
+      if (t < 1) requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+  }
+
+  // ── Currency toggle ──
+  {
+    const card = document.querySelector<HTMLElement>('.bc-cur')!
+    const data = [
+      { sym: '$', collected: 111485, outstanding: 25435, rate: 81, bars: [94, 88, 81] },
+      { sym: 'ZiG ', collected: 98350, outstanding: 45850, rate: 68, bars: [79, 72, 68] },
+    ]
+    const btns = card.querySelectorAll<HTMLButtonElement>('[data-cur]')
+    let cur = 0
+    let auto = true
+    let vis = false
+    const set = (i: number) => {
+      cur = i
+      const d = data[i]
+      card.classList.toggle('zig', i === 1)
+      btns.forEach((b, j) => b.setAttribute('aria-pressed', String(i === j)))
+      card.querySelectorAll('.cur-sym').forEach((s) => (s.textContent = d.sym))
+      tween(card.querySelector('[data-n="collected"]')!, d.collected)
+      tween(card.querySelector('[data-n="outstanding"]')!, d.outstanding)
+      tween(card.querySelector('[data-n="rate"]')!, d.rate)
+      // Bars use a 50–100% scale so term-to-term differences are visible
+      card.querySelectorAll<HTMLElement>('[data-bar]').forEach((b, j) => (b.style.height = `${(d.bars[j] - 50) * 2}%`))
+      card.querySelectorAll<HTMLElement>('[data-bv]').forEach((b, j) => (b.textContent = `${d.bars[j]}%`))
+    }
+    btns.forEach((b, i) => b.addEventListener('click', () => ((auto = false), set(i))))
+    onView(card, (v) => (vis = v))
+    if (!reduced) setInterval(() => auto && vis && !document.hidden && set(1 - cur), 4000)
+  }
+
+  // ── Verification ──
+  {
+    const card = document.querySelector<HTMLElement>('.bc-verify')!
+    let vis = false
+    onView(card, (v) => (vis = v))
+    if (!reduced) setInterval(() => vis && !document.hidden && card.classList.toggle('tampered'), 3200)
+  }
+
+  // ── Audit feed ──
+  {
+    const feed = document.getElementById('audit-feed')!
+    const events = [
+      ['FN', 'Farai Ncube', 'recorded $120 · Rcpt 4822', '10:42'],
+      ['TM', 'Tendai Moyo', 'edited Rcpt 4790 · $60 → $65', '10:38'],
+      ['TS', 'Tatenda Sibanda', 'registered Anesu Chirwa', '10:21'],
+      ['TM', 'Tendai Moyo', 'made K. Banda a Fees Officer', '09:57'],
+      ['KB', 'Kudakwashe Banda', 'recorded $45 · Rcpt 4823', '09:44'],
+      ['RC', 'Rudo Chikwanha', 'added a medical note', '09:30'],
+    ]
+    let i = 0
+    let vis = false
+    const push = (animate = true) => {
+      const [av, who, what, time] = events[i++ % events.length]
+      const li = document.createElement('li')
+      if (animate) li.className = 'fresh'
+      li.innerHTML = `<span class="au-av">${av}</span><span class="au-txt"><b>${who}</b> ${what}</span><span class="au-time">${time}</span>`
+      feed.prepend(li)
+      while (feed.children.length > 4) feed.lastElementChild!.remove()
+    }
+    for (let k = 0; k < 4; k++) push(false)
+    onView(feed, (v) => (vis = v))
+    if (!reduced) setInterval(() => vis && !document.hidden && push(), 2600)
+  }
+
+  // ── Year end ──
+  {
+    const ui = document.getElementById('year-ui')!
+    const btn = document.getElementById('year-btn')!
+    const counts = ui.querySelectorAll<HTMLElement>('[data-yc]')
+    const run = () => {
+      ui.classList.remove('done')
+      counts.forEach((c) => (c.textContent = '0'))
+      void ui.offsetWidth
+      setTimeout(() => {
+        ui.classList.add('done')
+        counts.forEach((c) => tween(c, Number(c.dataset.yc), 1400))
+      }, 250)
+    }
+    let ran = false
+    onView(ui, (v) => {
+      if (v && !ran) {
+        ran = true
+        run()
+      }
+    }, 0.6)
+    btn.addEventListener('click', run)
+  }
+</script>
+
+<style is:global>
+  .bento { position: relative; background: var(--ink); color: #fff; padding: 140px 0; overflow: hidden; }
+  .bento::before { content: ''; position: absolute; inset: 0; background: radial-gradient(800px 500px at 10% 0%, rgba(31, 94, 255, 0.18), transparent 60%); pointer-events: none; }
+  .bento .kicker { color: var(--muted-ink); }
+  .bento-head { position: relative; max-width: 820px; margin-bottom: 64px; }
+  .bento-head .h2 { margin-top: 20px; }
+  .bento-head em { color: var(--blue-2); }
+
+  .bento-grid { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
+  .span-2 { grid-column: span 2; }
+  .span-3 { grid-column: span 3; }
+  .span-4 { grid-column: span 4; }
+
+  .bc {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding: 30px;
+    border-radius: 22px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+    box-shadow: inset 0 0 0 1px var(--ink-line);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .bc::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(76, 130, 255, 0.16), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .bc:hover::before { opacity: 1; }
+  .bc h3 { font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1.05; }
+  .bc-copy p { color: var(--muted-ink); font-size: 15.5px; margin-top: 10px; max-width: 440px; }
+
+  /* Currency */
+  .bc-cur { flex-direction: row; align-items: stretch; }
+  .bc-cur .bc-copy { flex: 1 1 40%; }
+  .cur-ui { flex: 1 1 60%; display: flex; flex-direction: column; gap: 22px; }
+  .cur-toggle { position: relative; align-self: flex-start; display: inline-flex; padding: 4px; border-radius: 999px; background: rgba(255, 255, 255, 0.06); }
+  .cur-toggle button { position: relative; z-index: 1; width: 64px; height: 32px; font-size: 13.5px; font-weight: 600; color: var(--muted-ink); transition: color 0.3s; }
+  .cur-toggle button[aria-pressed='true'] { color: var(--ink); }
+  .cur-pill { position: absolute; left: 4px; top: 4px; width: 64px; height: 32px; border-radius: 999px; background: #fff; transition: transform 0.5s var(--ease); }
+  .zig .cur-pill { transform: translateX(64px); }
+  .cur-stats { display: grid; grid-template-columns: repeat(3, auto); gap: 18px; justify-content: space-between; }
+  .cur-stats span { display: block; font-size: 12px; color: var(--muted-ink); }
+  .cur-stats b { font-family: var(--serif); font-weight: 400; font-size: 32px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .cur-stats i { font-style: normal; }
+  .cur-sym { font-size: 0.7em; margin-right: 2px; color: var(--muted-ink); }
+  .cur-bars { display: flex; gap: 14px; height: 150px; margin-top: auto; }
+  .cur-bar { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .cur-track { position: relative; flex: 1; border-radius: 8px; background: repeating-linear-gradient(180deg, transparent 0 29px, rgba(255, 255, 255, 0.05) 29px 30px); }
+  .cur-bar span { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 8px 8px 3px 3px; background: linear-gradient(180deg, var(--blue-2), rgba(31, 94, 255, 0.35)); transition: height 0.9s var(--ease), background 0.6s; }
+  .cur-bar em { position: absolute; left: 0; right: 0; top: -22px; text-align: center; font-style: normal; font-family: var(--mono); font-size: 12px; color: #fff; }
+  .zig .cur-bar span { background: linear-gradient(180deg, var(--amber), rgba(227, 155, 45, 0.3)); }
+  .cur-bar small { font-family: var(--mono); font-size: 11px; color: var(--muted-ink); }
+
+  /* Verify */
+  .ver-ui { margin-top: auto; }
+  .ver-doc { padding: 16px 18px; border-radius: 12px; background: #fbf6e9; color: #2b2a26; transform: rotate(-1.5deg); }
+  .ver-line { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px dotted #c9bfa9; }
+  .ver-line span { color: #8a8478; }
+  .ver-amt { position: relative; font-family: var(--mono); }
+  .ver-amt s, .ver-amt ins { text-decoration: none; transition: opacity 0.4s; }
+  .ver-amt ins { position: absolute; right: 0; opacity: 0; color: var(--red); }
+  .tampered .ver-amt s { opacity: 0; }
+  .tampered .ver-amt ins { opacity: 1; }
+  .ver-code { margin-top: 10px; font-family: var(--mono); font-size: 11.5px; color: #8a8478; }
+  .ver-code span { color: #2b2a26; }
+  .ver-result { position: relative; height: 40px; margin-top: 16px; }
+  .ver-result > span { position: absolute; inset: 0; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; transition: opacity 0.4s, transform 0.4s var(--ease); }
+  .ver-result svg { width: 22px; height: 22px; padding: 5px; box-sizing: content-box; border-radius: 50%; }
+  .ver-result .ok { color: #5ee0a5; }
+  .ver-result .ok svg { background: rgba(18, 161, 101, 0.2); }
+  .ver-result .bad { color: #ff8a8e; opacity: 0; transform: translateY(8px); }
+  .ver-result .bad svg { background: rgba(220, 63, 69, 0.2); }
+  .tampered .ver-result .ok { opacity: 0; transform: translateY(-8px); }
+  .tampered .ver-result .bad { opacity: 1; transform: none; }
+
+  /* Audit */
+  .audit-feed { list-style: none; display: grid; gap: 8px; margin-top: auto; }
+  .audit-feed li { display: grid; grid-template-columns: 30px 1fr auto; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); font-size: 13px; color: var(--muted-ink); }
+  .audit-feed li.fresh { animation: auIn 0.7s var(--ease) both; }
+  @keyframes auIn { from { opacity: 0; transform: translateY(-10px); background: rgba(76, 130, 255, 0.25); } }
+  .audit-feed b { color: #fff; font-weight: 500; }
+  .au-av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 10.5px; font-weight: 600; background: rgba(76, 130, 255, 0.2); color: #9dbbff; }
+  .au-txt { line-height: 1.35; }
+  .au-time { font-family: var(--mono); font-size: 11px; }
+
+  /* Year end */
+  .bc-year { flex-direction: row; }
+  .bc-year .bc-copy { flex: 1 1 42%; display: flex; flex-direction: column; }
+  .year-btn { margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 16px; border-radius: 999px; font-size: 13.5px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2); transition: background 0.3s; }
+  .year-btn:hover { background: rgba(255, 255, 255, 0.08); }
+  .year-btn svg { width: 15px; height: 15px; }
+  .year-ui { flex: 1 1 58%; display: grid; gap: 8px; align-content: center; }
+  .yr { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); font-size: 14.5px; }
+  .yr-chip { position: relative; display: inline-grid; height: 28px; min-width: 112px; overflow: hidden; border-radius: 999px; font-size: 12.5px; font-weight: 500; }
+  .yr-chip > span { grid-area: 1 / 1; display: grid; place-items: center; padding: 0 12px; transition: transform 0.6s var(--ease); transition-delay: calc(var(--i) * 0.15s); }
+  .yr-a { background: rgba(255, 255, 255, 0.08); color: var(--muted-ink); }
+  .yr-b { background: rgba(76, 130, 255, 0.22); color: #b8ceff; transform: translateY(100%); }
+  .grad .yr-b { background: rgba(227, 155, 45, 0.22); color: #f5c77e; }
+  .done .yr-a { transform: translateY(-100%); }
+  .done .yr-b { transform: none; }
+  .yr-sum { margin-top: 8px; font-size: 13.5px; color: var(--muted-ink); }
+  .yr-sum b { color: #fff; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* Database */
+  .db-svg { width: 100%; height: auto; margin-top: auto; }
+  .db-node { fill: rgba(255, 255, 255, 0.06); stroke: rgba(255, 255, 255, 0.16); }
+  .db-txt { fill: #d6dcea; font-family: var(--mono); font-size: 12px; }
+  .db-cyl { fill: rgba(31, 94, 255, 0.18); stroke: var(--blue-2); stroke-width: 1.5; }
+  .db-cyl-line { fill: none; stroke: var(--blue-2); stroke-width: 1.2; opacity: 0.6; }
+  .db-flow { stroke: var(--blue-2); stroke-width: 2; stroke-dasharray: 4 6; animation: flow 1s linear infinite; animation-delay: calc(var(--i) * -0.3s); }
+  @keyframes flow { to { stroke-dashoffset: -20; } }
+  .db-wall { stroke: rgba(255, 255, 255, 0.18); stroke-width: 1.5; stroke-dasharray: 2 6; }
+
+  /* Documents */
+  .docs-stack { position: relative; height: 210px; margin-top: auto; }
+  .doc {
+    position: absolute;
+    left: 50%;
+    bottom: -40px;
+    width: 190px;
+    height: 240px;
+    margin-left: -95px;
+    padding: 16px;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--text);
+    box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.6);
+    transform: rotate(calc((var(--i) - 1) * 7deg)) translateX(calc((var(--i) - 1) * 26px));
+    transform-origin: bottom center;
+    transition: transform 0.6s var(--ease);
+  }
+  .bc-docs:hover .doc { transform: rotate(calc((var(--i) - 1) * 14deg)) translateX(calc((var(--i) - 1) * 70px)) translateY(-10px); }
+  .doc-head { display: flex; gap: 8px; align-items: center; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+  .doc-logo { width: 22px; height: 22px; border-radius: 6px; background: var(--blue); }
+  .doc-head b { display: block; font-size: 11px; }
+  .doc-head small { display: block; font-size: 9.5px; color: var(--muted); }
+  .doc-lines { display: grid; gap: 8px; margin-top: 12px; }
+  .doc-lines i { height: 6px; border-radius: 3px; background: var(--paper-2); }
+  .doc-lines i:nth-child(odd) { width: 80%; }
+  .doc-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; font-family: var(--mono); font-size: 8.5px; color: var(--muted); }
+  .doc-stamp { color: var(--red); border: 1.5px solid currentColor; padding: 1px 6px; border-radius: 3px; transform: rotate(-10deg); font-size: 10px; }
+
+  @media (max-width: 1020px) {
+    .bento { padding: 100px 0; }
+    .bento-grid { grid-template-columns: 1fr 1fr; }
+    .span-2, .span-3, .span-4 { grid-column: span 1; }
+    .bc-cur, .bc-year { grid-column: span 2; }
+  }
+  @media (max-width: 680px) {
+    .bento-grid { grid-template-columns: 1fr; }
+    .bc-cur, .bc-year { grid-column: span 1; flex-direction: column; }
+    .bc { padding: 24px; }
+    .cur-stats b { font-size: 26px; }
+  }
+</style>

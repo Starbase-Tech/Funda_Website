@@ -1,0 +1,420 @@
+---
+const arrow = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`
+---
+
+<section class="hero grain" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="kicker hero-in" style="--d:.05s">School management · Made in Zimbabwe</span>
+      <h1 class="display hero-title">
+        <span class="line"><span class="hero-in" style="--d:.12s">Every fee.</span></span>
+        <span class="line"><span class="hero-in" style="--d:.22s">Every student.</span></span>
+        <span class="line"><em class="hero-in" style="--d:.32s">Accounted for.</em></span>
+      </h1>
+      <p class="hero-lead hero-in" style="--d:.45s">
+        Funda turns the receipt book, the class registers and the notebooks in the staffroom into one simple
+        system — without changing how your school already works.
+      </p>
+      <div class="hero-actions hero-in" style="--d:.55s">
+        <a href="#contact" class="btn">Book a demo <Fragment set:html={arrow} /></a>
+        <a href="#tour" class="btn btn-line">Take the tour</a>
+      </div>
+      <ul class="hero-meta hero-in" style="--d:.65s">
+        <li><b>USD &amp; ZiG</b> fees</li>
+        <li><b>Own database</b> per school</li>
+        <li><b>Flat fee</b> per term</li>
+      </ul>
+    </div>
+
+    <div class="stage hero-in" style="--d:.3s" aria-hidden="true">
+      <!-- Paper receipt -->
+      <div class="receipt" id="receipt">
+        <div class="r-perf"></div>
+        <div class="r-head">
+          <div>
+            <div class="r-school">Riverview Primary School</div>
+            <div class="r-sub">14 Borrowdale Rd, Harare</div>
+          </div>
+          <div class="r-no">Nº <span data-f="no">4822</span></div>
+        </div>
+        <div class="r-title">Official Receipt</div>
+        <div class="r-row"><span class="r-lbl">Date</span><span class="r-val"><span class="ink" data-f="date"></span></span></div>
+        <div class="r-row"><span class="r-lbl">Received from</span><span class="r-val"><span class="ink" data-f="name"></span></span></div>
+        <div class="r-row"><span class="r-lbl">The sum of</span><span class="r-val"><span class="ink" data-f="words"></span></span></div>
+        <div class="r-row"><span class="r-lbl">Being</span><span class="r-val"><span class="ink" data-f="for"></span></span></div>
+        <div class="r-foot">
+          <div class="r-amt">$ <span class="ink" data-f="amt"></span></div>
+          <div class="r-sign"><span class="ink" data-f="sign">F. Ncube</span><small>Bursar</small></div>
+        </div>
+        <div class="r-stamp" id="stamp">Paid</div>
+        <div class="r-scan" id="scan"></div>
+      </div>
+
+      <!-- Hand-written annotation -->
+      <div class="note-hand" id="note">
+        <svg viewBox="0 0 120 60" fill="none"><path d="M6 14 C 40 4, 80 8, 108 30" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 5"/><path d="M96 32 L109 31 L104 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>in Funda,<br />seconds later</span>
+      </div>
+
+      <!-- Digital panel -->
+      <div class="panel">
+        <div class="p-bar"><i></i><i></i><i></i><span>riverview.funda360.africa</span></div>
+        <div class="p-body">
+          <div class="p-stat">
+            <div>
+              <div class="p-lbl">Fees collected · 2026</div>
+              <div class="p-num">$<span id="collected">111,485</span></div>
+            </div>
+            <div class="p-rate"><span id="rate">81</span>%<small>collection rate</small></div>
+          </div>
+          <div class="p-progress"><span id="progress" style="width:81%"></span></div>
+          <div class="p-lbl p-list-lbl">Recent payments</div>
+          <ul class="p-rows" id="rows">
+            <li><span class="av">NM</span><span class="who">Nokuthula Mpofu<small>Tuition · Rcpt 4821</small></span><span class="amt">$120</span></li>
+            <li><span class="av">TZ</span><span class="who">Tapiwa Zvobgo<small>Building Fund · Rcpt 4820</small></span><span class="amt">$30</span></li>
+            <li><span class="av">MM</span><span class="who">Munashe Mhlanga<small>Bus Levy · Rcpt 4819</small></span><span class="amt">$45</span></li>
+          </ul>
+        </div>
+        <div class="p-toast" id="toast"><span class="dot"></span><span id="toast-text">Receipt 4822 recorded</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true"><span></span></div>
+</section>
+
+<style is:global>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    padding: 150px 0 90px;
+    background:
+      radial-gradient(900px 500px at 85% 20%, rgba(76, 130, 255, 0.14), transparent 60%),
+      radial-gradient(700px 500px at 10% 90%, rgba(227, 155, 45, 0.12), transparent 60%),
+      var(--paper);
+    overflow: hidden;
+  }
+  .hero-grid { position: relative; display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 40px; align-items: center; }
+
+  .hero-in { opacity: 0; transform: translateY(24px); animation: heroIn 1.1s var(--ease) forwards; animation-delay: var(--d, 0s); }
+  @keyframes heroIn { to { opacity: 1; transform: none; } }
+
+  .hero-title { font-size: clamp(54px, 7vw, 100px); margin: 26px 0 28px; }
+  .hero-title .line { display: block; overflow: hidden; padding-bottom: 0.06em; white-space: nowrap; }
+  .hero-title em { color: var(--blue); }
+  .hero-title .hero-in { display: inline-block; }
+  .hero-lead { display: block; font-size: clamp(17px, 1.6vw, 19.5px); color: var(--muted); max-width: 520px; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 36px; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 8px 26px; list-style: none; margin-top: 44px; font-size: 14px; color: var(--muted); }
+  .hero-meta li::before { content: ''; display: inline-block; vertical-align: middle; margin: -2px 10px 0 0; width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(18, 161, 101, 0.15); }
+  .hero-meta b { font-weight: 600; color: var(--text); }
+
+  /* Stage */
+  .stage { position: relative; height: 600px; display: block; }
+
+  .receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 320px;
+    padding: 30px 26px 24px;
+    background:
+      repeating-linear-gradient(180deg, transparent 0 33px, rgba(70, 110, 190, 0.13) 33px 34px),
+      #fbf6e9;
+    color: #2b2a26;
+    border-radius: 4px;
+    transform: rotate(-5deg);
+    box-shadow: 0 1px 0 #e9e0cb, 0 30px 60px -20px rgba(60, 45, 20, 0.35), 0 8px 18px -8px rgba(60, 45, 20, 0.2);
+    transition: transform 0.9s var(--ease), opacity 0.6s var(--ease);
+    z-index: 1;
+    overflow: hidden;
+  }
+  .receipt.out { transform: rotate(-9deg) translate(-40px, 80px); opacity: 0; }
+  .receipt.pre { transform: rotate(-2deg) translate(30px, -60px); opacity: 0; transition: none; }
+  .receipt.pre .ink,
+  .receipt.pre .r-stamp { transition: none; }
+  .r-perf {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 10px;
+    background: radial-gradient(circle at 7px 0, var(--paper) 4px, transparent 4.5px) 0 0 / 14px 10px repeat-x;
+  }
+  .r-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .r-school { font-family: var(--serif); font-size: 19px; line-height: 1.1; }
+  .r-sub { font-size: 10.5px; color: #8a8478; margin-top: 2px; }
+  .r-no { font-family: var(--mono); font-size: 13px; color: var(--red); white-space: nowrap; }
+  .r-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: #8a8478; margin: 14px 0 6px; }
+  .r-row { display: flex; align-items: baseline; gap: 10px; height: 34px; border-bottom: 1px dotted #c9bfa9; }
+  .r-lbl { flex: none; font-size: 10.5px; color: #8a8478; text-transform: uppercase; letter-spacing: 0.06em; }
+  .r-val { flex: 1; min-width: 0; overflow: hidden; }
+  .ink {
+    display: inline-block;
+    font-family: var(--hand);
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1;
+    color: #1e3a8a;
+    white-space: nowrap;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.7s steps(14, end);
+  }
+  .ink.w { clip-path: inset(0 0 0 0); }
+  .r-foot { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 18px; }
+  .r-amt { font-family: var(--mono); font-size: 15px; border: 1.5px solid #2b2a26; padding: 6px 12px; border-radius: 3px; min-width: 120px; }
+  .r-amt .ink { font-size: 26px; }
+  .r-sign { text-align: center; }
+  .r-sign .ink { font-size: 24px; transform: rotate(-4deg); }
+  .r-sign small { display: block; border-top: 1px solid #b7ad97; font-size: 9.5px; color: #8a8478; text-transform: uppercase; letter-spacing: 0.1em; padding-top: 2px; width: 100px; }
+  .r-stamp {
+    position: absolute;
+    right: 34px;
+    top: 128px;
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(220, 63, 69, 0.85);
+    border: 3px solid currentColor;
+    padding: 2px 14px;
+    border-radius: 6px;
+    transform: rotate(-14deg) scale(2);
+    opacity: 0;
+    mix-blend-mode: multiply;
+    transition: transform 0.35s cubic-bezier(0.5, 1.8, 0.6, 1), opacity 0.2s;
+  }
+  .r-stamp.on { transform: rotate(-14deg) scale(1); opacity: 1; }
+  .r-scan {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -30%;
+    height: 30%;
+    background: linear-gradient(180deg, transparent, rgba(76, 130, 255, 0.22) 70%, rgba(76, 130, 255, 0.8) 98%, transparent);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .r-scan.go { animation: scan 1s var(--ease) forwards; }
+  @keyframes scan { 0% { top: -30%; opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+
+  .note-hand {
+    position: absolute;
+    left: 18px;
+    top: 410px;
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    color: var(--muted);
+    font-family: var(--hand);
+    font-size: 24px;
+    line-height: 1;
+    transform: rotate(-4deg);
+    z-index: 3;
+  }
+  .note-hand svg { width: 90px; height: 50px; margin-top: 4px; order: 2; }
+
+  .panel {
+    position: absolute;
+    right: 0;
+    top: 190px;
+    width: 370px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, var(--ink-2), var(--ink));
+    color: #fff;
+    box-shadow: 0 40px 80px -24px rgba(11, 18, 32, 0.55), inset 0 0 0 1px var(--ink-line);
+    z-index: 2;
+  }
+  .p-bar { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-bottom: 1px solid var(--ink-line); }
+  .p-bar i { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.14); }
+  .p-bar span { margin-left: 10px; font-family: var(--mono); font-size: 11px; color: var(--muted-ink); }
+  .p-body { padding: 20px 20px 18px; }
+  .p-stat { display: flex; justify-content: space-between; align-items: flex-end; }
+  .p-lbl { font-size: 12px; color: var(--muted-ink); letter-spacing: 0.02em; }
+  .p-num { font-family: var(--serif); font-size: 46px; line-height: 1.05; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .p-rate { text-align: right; font-size: 20px; font-weight: 600; color: #5ee0a5; }
+  .p-rate small { display: block; font-size: 11px; font-weight: 400; color: var(--muted-ink); }
+  .p-progress { height: 6px; border-radius: 6px; background: rgba(255, 255, 255, 0.08); margin: 16px 0 22px; overflow: hidden; }
+  .p-progress span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--blue), #5ee0a5); transition: width 1.2s var(--ease); }
+  .p-list-lbl { margin-bottom: 8px; }
+  .p-rows { list-style: none; display: grid; }
+  .p-rows li {
+    display: grid;
+    grid-template-columns: 34px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 10px;
+    margin: 0 -10px;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: background 1.2s var(--ease);
+  }
+  .p-rows li + li { box-shadow: 0 -1px 0 var(--ink-line); }
+  .p-rows li.new { animation: rowIn 0.8s var(--ease) both; background: rgba(76, 130, 255, 0.16); }
+  .p-rows li.settle { background: transparent; }
+  .p-rows li.leave { animation: rowOut 0.5s var(--ease) forwards; }
+  @keyframes rowIn { from { opacity: 0; transform: translateY(-14px) scale(0.98); } to { opacity: 1; transform: none; } }
+  @keyframes rowOut { to { opacity: 0; transform: translateY(10px); } }
+  .av { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-size: 11.5px; font-weight: 600; background: rgba(76, 130, 255, 0.18); color: #9dbbff; }
+  .who small { display: block; font-size: 11.5px; color: var(--muted-ink); font-family: var(--mono); }
+  .amt { font-family: var(--mono); font-size: 14px; }
+  .p-toast {
+    position: absolute;
+    left: 50%;
+    bottom: -22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--text);
+    font-size: 13.5px;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 16px 40px -12px rgba(11, 18, 32, 0.35);
+    transform: translate(-50%, 12px);
+    opacity: 0;
+    transition: transform 0.5s var(--ease), opacity 0.4s;
+  }
+  .p-toast.on { transform: translate(-50%, 0); opacity: 1; }
+  .p-toast .dot { width: 18px; height: 18px; border-radius: 50%; background: var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/11px no-repeat; }
+
+  .hero-scroll { position: absolute; left: 50%; bottom: 28px; width: 22px; height: 36px; border-radius: 12px; box-shadow: inset 0 0 0 1.5px var(--paper-line); transform: translateX(-50%); }
+  .hero-scroll span { position: absolute; left: 50%; top: 8px; width: 3px; height: 7px; margin-left: -1.5px; border-radius: 2px; background: var(--muted); animation: wheel 1.8s var(--ease) infinite; }
+  @keyframes wheel { 0% { transform: translateY(0); opacity: 1; } 80%, 100% { transform: translateY(12px); opacity: 0; } }
+
+  @media (max-width: 1020px) {
+    .hero { padding-top: 120px; min-height: 0; }
+    .hero-grid { grid-template-columns: 1fr; gap: 56px; }
+    .stage { height: 560px; max-width: 560px; width: 100%; margin: 0 auto; }
+    .hero-scroll { display: none; }
+  }
+  @media (max-width: 560px) {
+    .stage { height: 640px; }
+    .receipt { width: 290px; left: 50%; margin-left: -150px; top: 0; padding: 24px 20px 20px; }
+    .panel { left: 0; right: 0; width: auto; top: 330px; }
+    .note-hand { display: none; }
+    .p-num { font-size: 38px; }
+  }
+</style>
+
+<script>
+  const receipts = [
+    { no: '4822', date: '15 / 10 / 26', name: 'Tinashe Mutasa', words: 'One hundred & twenty', for: 'Tuition — Term 3', amt: 120, fee: 'Tuition' },
+    { no: '4823', date: '15 / 10 / 26', name: 'Chiedza Gumbo', words: 'Forty-five dollars', for: 'Bus levy — Term 3', amt: 45, fee: 'Bus Levy' },
+    { no: '4824', date: '15 / 10 / 26', name: 'Anesu Chirwa', words: 'Thirty dollars', for: 'Building fund', amt: 30, fee: 'Building Fund' },
+    { no: '4825', date: '16 / 10 / 26', name: 'Ruvimbo Sibanda', words: 'Sixty dollars', for: 'Tuition — Term 3', amt: 60, fee: 'Tuition' },
+  ]
+
+  const $ = (id: string) => document.getElementById(id)!
+  const receipt = $('receipt')
+  const stamp = $('stamp')
+  const scan = $('scan')
+  const rows = $('rows')
+  const toast = $('toast')
+  const toastText = $('toast-text')
+  const collectedEl = $('collected')
+  const rateEl = $('rate')
+  const progress = $('progress')
+  const field = (f: string) => receipt.querySelector<HTMLElement>(`[data-f="${f}"]`)!
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
+
+  let collected = 111485
+  const expected = 136920
+  let visible = true
+  new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(receipt)
+  const whenVisible = async () => {
+    while (!visible || document.hidden) await sleep(300)
+  }
+
+  function tween(from: number, to: number, ms: number, cb: (v: number) => void) {
+    const start = performance.now()
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / ms)
+      cb(from + (to - from) * (1 - Math.pow(1 - t, 3)))
+      if (t < 1) requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+  }
+
+  const initials = (n: string) => n.split(' ').map((p) => p[0]).join('')
+
+  function fill(r: (typeof receipts)[number]) {
+    field('no').textContent = r.no
+    field('date').textContent = r.date
+    field('name').textContent = r.name
+    field('words').textContent = r.words
+    field('for').textContent = r.for
+    field('amt').textContent = r.amt.toFixed(2)
+  }
+
+  function addRow(r: (typeof receipts)[number]) {
+    const li = document.createElement('li')
+    li.className = 'new'
+    li.innerHTML = `<span class="av">${initials(r.name)}</span><span class="who">${r.name}<small>${r.fee} · Rcpt ${r.no}</small></span><span class="amt">$${r.amt}</span>`
+    rows.prepend(li)
+    setTimeout(() => li.classList.add('settle'), 1600)
+    const extra = rows.children[3]
+    if (extra) {
+      extra.classList.add('leave')
+      setTimeout(() => extra.remove(), 500)
+    }
+    const from = collected
+    collected += r.amt
+    tween(from, collected, 1200, (v) => (collectedEl.textContent = Math.round(v).toLocaleString('en-US')))
+    const rate = (collected / expected) * 100
+    rateEl.textContent = String(Math.round(rate))
+    progress.style.width = `${rate}%`
+  }
+
+  const inks = () => Array.from(receipt.querySelectorAll<HTMLElement>('.ink'))
+
+  async function run() {
+    if (reduced) {
+      fill(receipts[0])
+      inks().forEach((i) => i.classList.add('w'))
+      stamp.classList.add('on')
+      return
+    }
+    let i = 0
+    await sleep(1200)
+    for (;;) {
+      const r = receipts[i % receipts.length]
+      await whenVisible()
+      fill(r)
+      for (const el of inks()) {
+        el.classList.add('w')
+        await sleep(520)
+      }
+      await sleep(250)
+      stamp.classList.add('on')
+      await sleep(500)
+      scan.classList.remove('go')
+      void scan.offsetWidth
+      scan.classList.add('go')
+      await sleep(700)
+      addRow(r)
+      toastText.textContent = `Receipt ${r.no} recorded`
+      toast.classList.add('on')
+      await sleep(2400)
+      toast.classList.remove('on')
+      await whenVisible()
+      receipt.classList.add('out')
+      await sleep(700)
+      receipt.classList.remove('out')
+      receipt.classList.add('pre')
+      stamp.classList.remove('on')
+      inks().forEach((el) => el.classList.remove('w'))
+      void receipt.offsetWidth
+      receipt.classList.remove('pre')
+      await sleep(800)
+      i++
+    }
+  }
+
+  run()
+</script>

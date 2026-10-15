@@ -1,0 +1,65 @@
+---
+import Logo from './Logo.astro'
+---
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="nav-logo" aria-label="Funda home"><Logo /></a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#tour">Product</a>
+      <a href="#roles">Permissions</a>
+      <a href="#features">Features</a>
+    </nav>
+    <a href="#contact" class="btn nav-cta">Book a demo</a>
+  </div>
+</header>
+
+<style is:global>
+  .nav {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease), transform 0.4s var(--ease);
+  }
+  .nav.scrolled {
+    background: rgba(246, 242, 234, 0.82);
+    backdrop-filter: blur(14px) saturate(1.4);
+    box-shadow: 0 1px 0 var(--paper-line);
+  }
+  .nav.hidden { transform: translateY(-100%); }
+  .nav-inner { display: flex; align-items: center; height: 76px; gap: 40px; }
+  .nav-links { display: flex; gap: 30px; margin-right: auto; font-size: 15px; color: var(--muted); }
+  .nav-links a { position: relative; transition: color 0.2s; }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s var(--ease);
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+  .nav-cta.btn { height: 42px; padding: 0 20px; font-size: 14.5px; box-shadow: none; }
+  @media (max-width: 760px) {
+    .nav-inner { height: 64px; justify-content: space-between; }
+    .nav-links { display: none; }
+  }
+</style>
+
+<script>
+  const nav = document.getElementById('nav')!
+  let last = window.scrollY
+  const onScroll = () => {
+    const y = window.scrollY
+    nav.classList.toggle('scrolled', y > 20)
+    nav.classList.toggle('hidden', y > 600 && y > last)
+    last = y
+  }
+  window.addEventListener('scroll', onScroll, { passive: true })
+  onScroll()
+</script>
