@@ -1,9 +1,13 @@
 ---
+import SectionBg from './SectionBg.astro'
+import deskCharts from '../assets/backgrounds/desk-charts.jpg'
+
 const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>`
 const cross = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>`
 ---
 
-<section class="bento on-ink" id="features">
+<section class="bento" id="features">
+  <SectionBg src={deskCharts} opacity={0.5} position="right center" />
   <div class="wrap">
     <div class="bento-head" data-reveal>
       <span class="kicker">The details that matter</span>
@@ -255,12 +259,10 @@ const cross = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 </script>
 
 <style is:global>
-  .bento { position: relative; background: var(--ink); color: #fff; padding: 140px 0; overflow: hidden; }
-  .bento::before { content: ''; position: absolute; inset: 0; background: radial-gradient(800px 500px at 10% 0%, rgba(31, 94, 255, 0.18), transparent 60%); pointer-events: none; }
-  .bento .kicker { color: var(--muted-ink); }
+  .bento { position: relative; background: var(--paper); padding: 140px 0; overflow: hidden; }
+  .bento::before { content: ''; position: absolute; inset: 0; background: radial-gradient(800px 500px at 10% 0%, rgba(22, 133, 255, 0.12), transparent 60%); pointer-events: none; }
   .bento-head { position: relative; max-width: 820px; margin-bottom: 64px; }
   .bento-head .h2 { margin-top: 20px; }
-  .bento-head em { color: var(--blue-2); }
 
   .bento-grid { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
   .span-2 { grid-column: span 2; }
@@ -274,49 +276,51 @@ const cross = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
     gap: 28px;
     padding: 30px;
     border-radius: 22px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
-    box-shadow: inset 0 0 0 1px var(--ink-line);
+    background: var(--card);
+    box-shadow: 0 0 0 1px var(--paper-line), 0 24px 48px -36px rgba(8, 43, 112, 0.35);
     overflow: hidden;
     isolation: isolate;
+    transition: box-shadow 0.4s var(--ease), transform 0.4s var(--ease);
   }
   .bc::before {
     content: '';
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(76, 130, 255, 0.16), transparent 60%);
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(22, 133, 255, 0.09), transparent 60%);
     opacity: 0;
     transition: opacity 0.4s;
   }
+  .bc:hover { transform: translateY(-3px); box-shadow: 0 0 0 1px #c8d6ec, 0 30px 60px -36px rgba(8, 43, 112, 0.45); }
   .bc:hover::before { opacity: 1; }
-  .bc h3 { font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1.05; }
-  .bc-copy p { color: var(--muted-ink); font-size: 15.5px; margin-top: 10px; max-width: 440px; }
+  .bc h3 { font-family: var(--display); font-weight: 700; font-size: 22px; letter-spacing: -0.025em; line-height: 1.2; }
+  .bc-copy p { color: var(--muted); font-size: 15.5px; margin-top: 10px; max-width: 440px; }
 
   /* Currency */
   .bc-cur { flex-direction: row; align-items: stretch; }
   .bc-cur .bc-copy { flex: 1 1 40%; }
   .cur-ui { flex: 1 1 60%; display: flex; flex-direction: column; gap: 22px; }
-  .cur-toggle { position: relative; align-self: flex-start; display: inline-flex; padding: 4px; border-radius: 999px; background: rgba(255, 255, 255, 0.06); }
-  .cur-toggle button { position: relative; z-index: 1; width: 64px; height: 32px; font-size: 13.5px; font-weight: 600; color: var(--muted-ink); transition: color 0.3s; }
-  .cur-toggle button[aria-pressed='true'] { color: var(--ink); }
-  .cur-pill { position: absolute; left: 4px; top: 4px; width: 64px; height: 32px; border-radius: 999px; background: #fff; transition: transform 0.5s var(--ease); }
+  .cur-toggle { position: relative; align-self: flex-start; display: inline-flex; padding: 4px; border-radius: 999px; background: var(--paper-2); }
+  .cur-toggle button { position: relative; z-index: 1; width: 64px; height: 32px; font-size: 13.5px; font-weight: 600; color: var(--muted); transition: color 0.3s; }
+  .cur-toggle button[aria-pressed='true'] { color: #fff; }
+  .cur-pill { position: absolute; left: 4px; top: 4px; width: 64px; height: 32px; border-radius: 999px; background: var(--blue); transition: transform 0.5s var(--ease); }
   .zig .cur-pill { transform: translateX(64px); }
   .cur-stats { display: grid; grid-template-columns: repeat(3, auto); gap: 18px; justify-content: space-between; }
-  .cur-stats span { display: block; font-size: 12px; color: var(--muted-ink); }
-  .cur-stats b { font-family: var(--serif); font-weight: 400; font-size: 32px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .cur-stats span { display: block; font-size: 12px; color: var(--muted); }
+  .cur-stats b { font-family: var(--display); font-weight: 700; font-size: 26px; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .cur-stats i { font-style: normal; }
-  .cur-sym { font-size: 0.7em; margin-right: 2px; color: var(--muted-ink); }
+  .cur-sym { font-size: 0.7em; margin-right: 2px; color: var(--muted); }
   .cur-bars { display: flex; gap: 14px; height: 150px; margin-top: auto; }
   .cur-bar { flex: 1; display: flex; flex-direction: column; gap: 8px; }
-  .cur-track { position: relative; flex: 1; border-radius: 8px; background: repeating-linear-gradient(180deg, transparent 0 29px, rgba(255, 255, 255, 0.05) 29px 30px); }
-  .cur-bar span { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 8px 8px 3px 3px; background: linear-gradient(180deg, var(--blue-2), rgba(31, 94, 255, 0.35)); transition: height 0.9s var(--ease), background 0.6s; }
-  .cur-bar em { position: absolute; left: 0; right: 0; top: -22px; text-align: center; font-style: normal; font-family: var(--mono); font-size: 12px; color: #fff; }
-  .zig .cur-bar span { background: linear-gradient(180deg, var(--amber), rgba(227, 155, 45, 0.3)); }
-  .cur-bar small { font-family: var(--mono); font-size: 11px; color: var(--muted-ink); }
+  .cur-track { position: relative; flex: 1; border-radius: 8px; background: repeating-linear-gradient(180deg, transparent 0 29px, rgba(8, 43, 112, 0.06) 29px 30px); }
+  .cur-bar span { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 8px 8px 3px 3px; background: linear-gradient(180deg, var(--blue-2), rgba(8, 119, 255, 0.25)); transition: height 0.9s var(--ease), background 0.6s; }
+  .cur-bar em { position: absolute; left: 0; right: 0; top: -22px; text-align: center; font-style: normal; font-family: var(--mono); font-size: 12px; color: var(--text); }
+  .zig .cur-bar span { background: linear-gradient(180deg, var(--amber), rgba(227, 155, 45, 0.25)); }
+  .cur-bar small { font-family: var(--mono); font-size: 11px; color: var(--muted); }
 
   /* Verify */
   .ver-ui { margin-top: auto; }
-  .ver-doc { padding: 16px 18px; border-radius: 12px; background: #fbf6e9; color: #2b2a26; transform: rotate(-1.5deg); }
+  .ver-doc { padding: 16px 18px; border-radius: 12px; background: #fbf6e9; color: #2b2a26; transform: rotate(-1.5deg); box-shadow: 0 0 0 1px #ece3cc, 0 14px 28px -18px rgba(60, 45, 20, 0.4); }
   .ver-line { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px dotted #c9bfa9; }
   .ver-line span { color: #8a8478; }
   .ver-amt { position: relative; font-family: var(--mono); }
@@ -329,50 +333,50 @@ const cross = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
   .ver-result { position: relative; height: 40px; margin-top: 16px; }
   .ver-result > span { position: absolute; inset: 0; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; transition: opacity 0.4s, transform 0.4s var(--ease); }
   .ver-result svg { width: 22px; height: 22px; padding: 5px; box-sizing: content-box; border-radius: 50%; }
-  .ver-result .ok { color: #5ee0a5; }
-  .ver-result .ok svg { background: rgba(18, 161, 101, 0.2); }
-  .ver-result .bad { color: #ff8a8e; opacity: 0; transform: translateY(8px); }
-  .ver-result .bad svg { background: rgba(220, 63, 69, 0.2); }
+  .ver-result .ok { color: #0b7a4b; }
+  .ver-result .ok svg { background: #dcf5e9; }
+  .ver-result .bad { color: var(--red); opacity: 0; transform: translateY(8px); }
+  .ver-result .bad svg { background: #fde7e8; }
   .tampered .ver-result .ok { opacity: 0; transform: translateY(-8px); }
   .tampered .ver-result .bad { opacity: 1; transform: none; }
 
   /* Audit */
   .audit-feed { list-style: none; display: grid; gap: 8px; margin-top: auto; }
-  .audit-feed li { display: grid; grid-template-columns: 30px 1fr auto; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); font-size: 13px; color: var(--muted-ink); }
+  .audit-feed li { display: grid; grid-template-columns: 30px 1fr auto; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 12px; background: var(--paper); font-size: 13px; color: var(--muted); }
   .audit-feed li.fresh { animation: auIn 0.7s var(--ease) both; }
-  @keyframes auIn { from { opacity: 0; transform: translateY(-10px); background: rgba(76, 130, 255, 0.25); } }
-  .audit-feed b { color: #fff; font-weight: 500; }
-  .au-av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 10.5px; font-weight: 600; background: rgba(76, 130, 255, 0.2); color: #9dbbff; }
+  @keyframes auIn { from { opacity: 0; transform: translateY(-10px); background: var(--blue-soft); } }
+  .audit-feed b { color: var(--text); font-weight: 600; }
+  .au-av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 10.5px; font-weight: 600; background: var(--blue-soft); color: var(--blue); }
   .au-txt { line-height: 1.35; }
   .au-time { font-family: var(--mono); font-size: 11px; }
 
   /* Year end */
   .bc-year { flex-direction: row; }
   .bc-year .bc-copy { flex: 1 1 42%; display: flex; flex-direction: column; }
-  .year-btn { margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 16px; border-radius: 999px; font-size: 13.5px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2); transition: background 0.3s; }
-  .year-btn:hover { background: rgba(255, 255, 255, 0.08); }
+  .year-btn { margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 16px; border-radius: 999px; font-size: 13.5px; font-weight: 500; color: var(--blue); box-shadow: inset 0 0 0 1px #bcd6ff; transition: background 0.3s; }
+  .year-btn:hover { background: var(--blue-soft); }
   .year-btn svg { width: 15px; height: 15px; }
   .year-ui { flex: 1 1 58%; display: grid; gap: 8px; align-content: center; }
-  .yr { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); font-size: 14.5px; }
+  .yr { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-radius: 12px; background: var(--paper); font-size: 14.5px; }
   .yr-chip { position: relative; display: inline-grid; height: 28px; min-width: 112px; overflow: hidden; border-radius: 999px; font-size: 12.5px; font-weight: 500; }
   .yr-chip > span { grid-area: 1 / 1; display: grid; place-items: center; padding: 0 12px; transition: transform 0.6s var(--ease); transition-delay: calc(var(--i) * 0.15s); }
-  .yr-a { background: rgba(255, 255, 255, 0.08); color: var(--muted-ink); }
-  .yr-b { background: rgba(76, 130, 255, 0.22); color: #b8ceff; transform: translateY(100%); }
-  .grad .yr-b { background: rgba(227, 155, 45, 0.22); color: #f5c77e; }
+  .yr-a { background: var(--paper-2); color: var(--muted); }
+  .yr-b { background: var(--blue-soft); color: var(--blue); transform: translateY(100%); }
+  .grad .yr-b { background: #fdf0d9; color: #a8640a; }
   .done .yr-a { transform: translateY(-100%); }
   .done .yr-b { transform: none; }
-  .yr-sum { margin-top: 8px; font-size: 13.5px; color: var(--muted-ink); }
-  .yr-sum b { color: #fff; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .yr-sum { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
+  .yr-sum b { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
 
   /* Database */
   .db-svg { width: 100%; height: auto; margin-top: auto; }
-  .db-node { fill: rgba(255, 255, 255, 0.06); stroke: rgba(255, 255, 255, 0.16); }
-  .db-txt { fill: #d6dcea; font-family: var(--mono); font-size: 12px; }
-  .db-cyl { fill: rgba(31, 94, 255, 0.18); stroke: var(--blue-2); stroke-width: 1.5; }
-  .db-cyl-line { fill: none; stroke: var(--blue-2); stroke-width: 1.2; opacity: 0.6; }
-  .db-flow { stroke: var(--blue-2); stroke-width: 2; stroke-dasharray: 4 6; animation: flow 1s linear infinite; animation-delay: calc(var(--i) * -0.3s); }
+  .db-node { fill: var(--paper); stroke: var(--paper-line); }
+  .db-txt { fill: var(--text); font-family: var(--mono); font-size: 12px; }
+  .db-cyl { fill: var(--blue-soft); stroke: var(--blue); stroke-width: 1.5; }
+  .db-cyl-line { fill: none; stroke: var(--blue); stroke-width: 1.2; opacity: 0.6; }
+  .db-flow { stroke: var(--blue); stroke-width: 2; stroke-dasharray: 4 6; animation: flow 1s linear infinite; animation-delay: calc(var(--i) * -0.3s); }
   @keyframes flow { to { stroke-dashoffset: -20; } }
-  .db-wall { stroke: rgba(255, 255, 255, 0.18); stroke-width: 1.5; stroke-dasharray: 2 6; }
+  .db-wall { stroke: #c3cfe1; stroke-width: 1.5; stroke-dasharray: 2 6; }
 
   /* Documents */
   .docs-stack { position: relative; height: 210px; margin-top: auto; }
@@ -387,7 +391,7 @@ const cross = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
     border-radius: 8px;
     background: #fff;
     color: var(--text);
-    box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 0 1px var(--paper-line), 0 20px 40px -14px rgba(8, 43, 112, 0.3);
     transform: rotate(calc((var(--i) - 1) * 7deg)) translateX(calc((var(--i) - 1) * 26px));
     transform-origin: bottom center;
     transition: transform 0.6s var(--ease);
@@ -413,6 +417,6 @@ const cross = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
     .bento-grid { grid-template-columns: 1fr; }
     .bc-cur, .bc-year { grid-column: span 1; flex-direction: column; }
     .bc { padding: 24px; }
-    .cur-stats b { font-size: 26px; }
+    .cur-stats b { font-size: 22px; }
   }
 </style>

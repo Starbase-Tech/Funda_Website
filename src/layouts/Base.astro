@@ -7,6 +7,7 @@ interface Props {
 }
 
 const { title, description } = Astro.props
+const ogImage = new URL('/og.jpg', Astro.site)
 ---
 
 <!doctype html>
@@ -18,12 +19,15 @@ const { title, description } = Astro.props
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta name="theme-color" content="#0b1220" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f7f9fc" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Geist+Mono:wght@400;500&family=Geist:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -44,6 +48,24 @@ const { title, description } = Astro.props
         { threshold: 0.15, rootMargin: '0px 0px -40px 0px' },
       )
       document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el))
+
+      // In-page links scroll to their section without adding #section to the URL
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      document.addEventListener('click', (e) => {
+        const a = (e.target as Element).closest<HTMLAnchorElement>('a[href^="#"]')
+        if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return
+        const id = a.getAttribute('href')!.slice(1)
+        const target = id ? document.getElementById(id) : null
+        if (!target) return
+        e.preventDefault()
+        target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' })
+      })
+      // Tidy up if someone arrives on an old link like /#contact
+      if (location.hash) {
+        const landing = document.getElementById(location.hash.slice(1))
+        history.replaceState(null, '', location.pathname + location.search)
+        landing?.scrollIntoView()
+      }
     </script>
   </body>
 </html>

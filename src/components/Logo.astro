@@ -1,25 +1,27 @@
 ---
+import { Image } from 'astro:assets'
+import logo from '../assets/brand/funda-logo.png'
+import mark from '../assets/brand/funda-mark.png'
+
 interface Props {
-  light?: boolean
+  /** Rendered height in px */
+  height?: number
+  /** Just the F mark, without the wordmark */
+  markOnly?: boolean
 }
-const { light = false } = Astro.props
+const { height = 32, markOnly = false } = Astro.props
+const src = markOnly ? mark : logo
 ---
 
-<span class:list={['logo', { 'logo-light': light }]}>
-  <svg viewBox="0 0 32 32" aria-hidden="true">
-    <rect width="32" height="32" rx="9" />
-    <path d="M27 13.5v6M5 13.5l11-5.5 11 5.5-11 5.5z" />
-    <path d="M9.5 15.6v5c3.6 3.2 9.4 3.2 13 0v-5" />
-  </svg>
-  Funda
-</span>
+<Image
+  src={src}
+  alt="Funda"
+  height={height}
+  densities={[1, 2]}
+  class="logo"
+  loading="eager"
+/>
 
 <style is:global>
-  .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: 19px; letter-spacing: -0.02em; }
-  .logo svg { width: 30px; height: 30px; }
-  .logo rect { fill: var(--ink); }
-  .logo path { fill: none; stroke: var(--blue-2); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-  .logo-light { color: #fff; }
-  .logo-light rect { fill: var(--blue); }
-  .logo-light path { stroke: #fff; }
+  .logo { display: block; width: auto; }
 </style>

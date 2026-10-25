@@ -1,0 +1,59 @@
+---
+// Faint photo behind a section. Place it as the section's first child; the section
+// must be position: relative. The photo fades into `wash` at the top and bottom edges.
+import { getImage } from 'astro:assets'
+import type { ImageMetadata } from 'astro'
+
+interface Props {
+  src: ImageMetadata
+  /** How much of the photo shows through (0–1) */
+  opacity?: number
+  /** CSS background-position */
+  position?: string
+  /** The section's own background colour, so the edges blend in */
+  wash?: string
+  /** How strongly the middle is washed out, in % */
+  strength?: number
+}
+const { src, opacity = 0.5, position = 'center', wash = 'var(--paper)', strength = 78 } = Astro.props
+const img = await getImage({ src, width: 1600, format: 'webp', quality: 70 })
+---
+
+<div
+  class="section-bg"
+  style={`background-image: url(${img.src}); --bg-o: ${opacity}; --bg-pos: ${position}; --wash: ${wash}; --wash-s: ${strength}%`}
+  aria-hidden="true"
+>
+</div>
+
+<style is:global>
+  .section-bg {
+    position: absolute;
+    inset: 0;
+    background-position: var(--bg-pos);
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: var(--bg-o);
+    filter: saturate(0.85);
+    pointer-events: none;
+  }
+  .section-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      var(--wash) 0%,
+      color-mix(in srgb, var(--wash) var(--wash-s), transparent) 22%,
+      color-mix(in srgb, var(--wash) var(--wash-s), transparent) 78%,
+      var(--wash) 100%
+    );
+  }
+  /* Keep the section's content above the photo */
+  .section-bg ~ * { position: relative; }
+
+  /* Narrow screens crop into the busiest part of the photo, so fade it further */
+  @media (max-width: 760px) {
+    .section-bg { opacity: calc(var(--bg-o) * 0.55); }
+  }
+</style>

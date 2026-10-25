@@ -4,7 +4,7 @@ import Logo from './Logo.astro'
 
 <header class="nav" id="nav">
   <div class="wrap nav-inner">
-    <a href="#top" class="nav-logo" aria-label="Funda home"><Logo /></a>
+    <a href="#top" class="nav-logo" aria-label="Funda home"><Logo height={34} /></a>
     <nav class="nav-links" aria-label="Main">
       <a href="#tour">Product</a>
       <a href="#roles">Permissions</a>
@@ -22,7 +22,7 @@ import Logo from './Logo.astro'
     transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease), transform 0.4s var(--ease);
   }
   .nav.scrolled {
-    background: rgba(246, 242, 234, 0.82);
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(14px) saturate(1.4);
     box-shadow: 0 1px 0 var(--paper-line);
   }
@@ -45,8 +45,10 @@ import Logo from './Logo.astro'
   .nav-links a:hover { color: var(--text); }
   .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
   .nav-cta.btn { height: 42px; padding: 0 20px; font-size: 14.5px; box-shadow: none; }
+  .nav-logo { display: block; }
   @media (max-width: 760px) {
     .nav-inner { height: 64px; justify-content: space-between; }
+    .nav-logo .logo { height: 28px; }
     .nav-links { display: none; }
   }
 </style>

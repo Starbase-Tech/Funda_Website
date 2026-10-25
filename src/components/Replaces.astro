@@ -1,8 +1,12 @@
 ---
+import SectionBg from './SectionBg.astro'
+import staffroom from '../assets/backgrounds/staffroom.jpg'
+
 const items = ['the receipt-book stubs', 'the fees notebook', 'the Excel file on one laptop', 'the register in the drawer']
 ---
 
 <section class="swap">
+  <SectionBg src={staffroom} opacity={0.5} position="center 45%" wash="var(--card)" strength={76} />
   <div class="wrap swap-inner" data-reveal>
     <span class="kicker">What Funda replaces</span>
     <ul class="swap-list">
@@ -24,14 +28,13 @@ const items = ['the receipt-book stubs', 'the fees notebook', 'the Excel file on
 </section>
 
 <style is:global>
-  .swap { position: relative; padding: 120px 0; background: var(--paper-2); border-block: 1px solid var(--paper-line); }
+  .swap { position: relative; padding: 120px 0; background: var(--card); border-block: 1px solid var(--paper-line); }
   .swap-inner { text-align: center; }
   .swap-list { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 44px; margin: 32px auto 40px; max-width: 980px; }
-  .swap-list li { position: relative; font-family: var(--hand); font-size: clamp(30px, 3.6vw, 44px); color: #6d6658; line-height: 1.2; }
+  .swap-list li { position: relative; font-family: var(--hand); font-size: clamp(30px, 3.6vw, 44px); color: #7a8494; line-height: 1.2; }
   .swap-list svg { position: absolute; left: -4%; top: 38%; width: 108%; height: 22px; overflow: visible; }
   .swap-list path { fill: none; stroke: var(--red); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 320; stroke-dashoffset: 320; }
   .in .swap-list path { transition: stroke-dashoffset 0.7s var(--ease); transition-delay: calc(0.5s + var(--i) * 0.35s); stroke-dashoffset: 0; }
   .in .swap-list li span { transition: opacity 0.6s; transition-delay: calc(0.8s + var(--i) * 0.35s); opacity: 0.55; }
-  .swap-out { font-size: clamp(32px, 4.2vw, 54px); max-width: 900px; margin: 0 auto; line-height: 1.08; }
-  .swap-out em { color: var(--blue); }
+  .swap-out { font-size: clamp(24px, 3vw, 38px); max-width: 860px; margin: 0 auto; line-height: 1.18; }
 </style>
