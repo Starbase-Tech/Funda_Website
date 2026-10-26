@@ -120,11 +120,6 @@ const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
         }
         <p class="pr-dim">Priced when they launch. Schools already on Funda hear first.</p>
       </div>
-      <div class="pr-founding" data-reveal style="--d:.08s">
-        <span class="pr-tag">For our first 10 schools</span>
-        <h3>Founding school offer</h3>
-        <p>Keep your price for two years, and we waive the once-off setup fee.</p>
-      </div>
     </div>
 
     <div class="pr-terms" data-reveal>
@@ -138,7 +133,7 @@ const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
         <li>Your size band is set by the number of active learners at the start of the term.</li>
         <li>
           A once-off setup fee of $100 covers loading your data and a training day for your staff at your school. It's
-          only charged if you subscribe after your trial, on your first invoice. Founding schools don't pay it. For schools further away, travel costs are quoted upfront and agreed before we
+          only charged if you subscribe after your trial, on your first invoice. For schools further away, travel costs are quoted upfront and agreed before we
           book the visit.
         </li>
         <li>SMS messages, when they launch, are charged by usage.</li>
@@ -215,21 +210,19 @@ const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
   .pr-inc li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; }
   .pr-inc svg { flex: none; width: 18px; height: 18px; padding: 3px; margin-top: 2px; border-radius: 50%; background: var(--blue-soft); color: var(--blue); }
 
-  /* Add-ons + founding */
-  .pr-extra { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
-  .pr-soon, .pr-founding { padding: 28px 30px; border-radius: 22px; }
+  /* Add-ons */
+  .pr-extra { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 18px; }
+  .pr-soon { padding: 28px 30px; border-radius: 22px; }
   .pr-soon { border: 1px dashed #c3cfe1; }
   .pr-soon p { font-size: 15px; margin-top: 8px; }
   .pr-dim { color: var(--muted); font-size: 14px !important; }
-  .pr-founding { background: var(--ink); color: #fff; }
-  .pr-founding p { color: rgba(255, 255, 255, 0.78); font-size: 15px; margin-top: 8px; }
   .pr-tag { display: inline-block; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; }
-  .pr-founding .pr-tag { color: #8cc0ff; }
 
   /* Terms */
   .pr-terms { margin-top: 40px; max-width: 860px; }
-  .pr-terms h4 { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-  .pr-terms ul { margin-top: 12px; padding-left: 18px; display: grid; gap: 6px; font-size: 13.5px; color: var(--muted); }
+  .pr-terms h4 { font-family: var(--display); font-weight: 700; font-size: 19px; letter-spacing: -0.02em; color: var(--text); }
+  .pr-terms ul { margin-top: 14px; padding-left: 20px; display: grid; gap: 10px; font-size: 15px; line-height: 1.6; color: var(--text); }
+  .pr-terms li::marker { color: var(--blue); }
   .pr-terms a { color: var(--text); border-bottom: 1px solid var(--paper-line); }
 
   @media (max-width: 960px) {
