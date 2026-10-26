@@ -1,0 +1,122 @@
+---
+import Legal from '../layouts/Legal.astro'
+import { COMPANY, EMAIL, PHONES, WHATSAPP } from '../data/contact'
+---
+
+<Legal
+  title="Privacy Policy"
+  description="How Funda collects, uses and protects personal information about schools, staff, learners and parents."
+  updated="26 October 2026"
+>
+  <p class="legal-lead">
+    This policy explains how {COMPANY} ("we", "us", "our") handles personal information through Funda and this website.
+    We follow the Cyber and Data Protection Act [Chapter 12:07] of Zimbabwe.
+  </p>
+
+  <h2>1. Our role</h2>
+  <p>
+    Schools use Funda to keep records about their learners, parents or guardians, and staff. For those records, the
+    school decides what is collected and why, and we process the information on the school's behalf and on its
+    instructions. Questions about a learner's records should go to the school first.
+  </p>
+  <p>
+    For information about the schools we work with and people who contact us, such as names and phone numbers of
+    school contacts, we are responsible for how it is used.
+  </p>
+
+  <h2>2. Information we handle</h2>
+  <h3>Records schools keep in Funda</h3>
+  <ul>
+    <li>Learner details, such as name, class, admission number and date of birth.</li>
+    <li>Parent or guardian names and contact details.</li>
+    <li>Fee records, payments, receipts and statements.</li>
+    <li>Student notes the school chooses to record.</li>
+    <li>Staff names, login details and roles.</li>
+  </ul>
+  <h3>Information about how Funda is used</h3>
+  <ul>
+    <li>An audit trail of changes: who changed what, and when.</li>
+    <li>Technical logs, such as sign-in times, IP addresses and browser type, used for security and fixing problems.</li>
+  </ul>
+  <h3>When you contact us</h3>
+  <ul>
+    <li>Your name, school, email address, phone number and what you tell us.</li>
+  </ul>
+
+  <h2>3. How we use it</h2>
+  <ul>
+    <li>To provide Funda to your school, including setup, training and support.</li>
+    <li>To keep the system secure, prevent misuse and investigate problems.</li>
+    <li>To send invoices and service messages, such as notice of price changes or maintenance.</li>
+    <li>To reply when you contact us about Funda.</li>
+  </ul>
+  <p>
+    We do not sell personal information, and we do not use learner or parent information for advertising or marketing.
+  </p>
+
+  <h2>4. Learners' information</h2>
+  <p>
+    Most learners are children, so their information needs extra care. Schools are responsible for having a lawful
+    reason to record it and for informing parents or guardians. Within Funda, schools control which staff can see which
+    information, and sensitive notes are only shown to the staff the school chooses.
+  </p>
+
+  <h2>5. Who we share it with</h2>
+  <p>We only share personal information when we need to, with:</p>
+  <ul>
+    <li>Service providers who host and run Funda for us, such as cloud hosting providers, under confidentiality terms.</li>
+    <li>Messaging and payment providers, once features like SMS or Ecocash payments are switched on by your school.</li>
+    <li>Authorities, when the law requires us to.</li>
+  </ul>
+  <p>
+    Some of our service providers may store information outside Zimbabwe. Where this happens, we take steps to make
+    sure the information is protected to the standard the law requires.
+  </p>
+
+  <h2>6. How we protect it</h2>
+  <ul>
+    <li>Each school has its own private database.</li>
+    <li>Information is encrypted while it travels between your device and Funda.</li>
+    <li>Staff access is controlled by role, and every change is recorded in an audit trail.</li>
+    <li>Data is backed up regularly.</li>
+  </ul>
+
+  <h2>7. How long we keep it</h2>
+  <p>
+    We keep a school's records for as long as it uses Funda. If a subscription lapses, we keep the records for up to
+    12 months so the school can return, then delete them after giving at least 30 days' notice. A school can ask us to
+    delete its records sooner. We may keep invoices and payment records for longer where the law requires.
+  </p>
+
+  <h2>8. Your rights</h2>
+  <p>Under Zimbabwean law, you can ask to:</p>
+  <ul>
+    <li>see the personal information held about you,</li>
+    <li>correct information that is wrong,</li>
+    <li>have information deleted where there is no longer a reason to keep it, and</li>
+    <li>object to how your information is used.</li>
+  </ul>
+  <p>
+    If your information is in a school's records, such as a learner's or parent's details, please contact the school.
+    We will help the school respond. You can also complain to the Data Protection Authority (POTRAZ).
+  </p>
+
+  <h2>9. This website</h2>
+  <p>
+    This website does not use advertising or tracking cookies. It loads fonts from Google Fonts, which means your
+    browser connects to Google's servers and shares your IP address with them.
+  </p>
+
+  <h2>10. Changes to this policy</h2>
+  <p>
+    We may update this policy from time to time. The latest version will always be on this page, and we will tell
+    schools about important changes.
+  </p>
+
+  <h2>11. Contact us</h2>
+  <ul>
+    <li>Email: <a href={`mailto:${EMAIL}`}>{EMAIL}</a></li>
+    <li>WhatsApp: <a href={`https://wa.me/${WHATSAPP.number}`} target="_blank" rel="noopener">{WHATSAPP.label}</a></li>
+    {PHONES.map((p) => <li>Phone: <a href={`tel:${p.tel}`}>{p.label}</a></li>)}
+  </ul>
+</Legal>

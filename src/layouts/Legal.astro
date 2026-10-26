@@ -1,0 +1,51 @@
+---
+import Base from './Base.astro'
+import Nav from '../components/Nav.astro'
+import Footer from '../components/Footer.astro'
+
+interface Props {
+  title: string
+  description: string
+  updated: string
+}
+
+const { title, description, updated } = Astro.props
+---
+
+<Base title={`${title} — Funda`} description={description}>
+  <Nav />
+  <main class="legal">
+    <div class="wrap">
+      <header class="legal-head">
+        <span class="kicker">Legal</span>
+        <h1 class="display">{title}</h1>
+        <p>Last updated {updated}</p>
+      </header>
+      <article class="legal-body">
+        <slot />
+      </article>
+    </div>
+  </main>
+  <Footer />
+</Base>
+
+<style is:global>
+  .legal { padding: 150px 0 110px; background: var(--card); }
+  .legal-head { max-width: 760px; margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--paper-line); }
+  .legal-head h1 { font-size: clamp(36px, 5vw, 60px); margin-top: 18px; }
+  .legal-head p { color: var(--muted); margin-top: 14px; font-size: 15px; }
+
+  .legal-body { max-width: 760px; font-size: 16.5px; line-height: 1.7; }
+  .legal-body h2 { font-family: var(--display); font-weight: 700; font-size: 22px; letter-spacing: -0.02em; line-height: 1.25; margin: 44px 0 12px; }
+  .legal-body h3 { font-weight: 600; font-size: 17px; margin: 24px 0 8px; }
+  .legal-body p + p { margin-top: 12px; }
+  .legal-body ul { padding-left: 22px; margin: 12px 0; display: grid; gap: 6px; }
+  .legal-body li::marker { color: var(--blue); }
+  .legal-body a { color: var(--blue); border-bottom: 1px solid currentColor; }
+  .legal-body .legal-lead { font-size: 18px; color: var(--text); }
+  .legal-body .legal-note { margin-top: 20px; padding: 18px 20px; border-radius: 14px; background: var(--tint); font-size: 15.5px; }
+
+  @media (max-width: 760px) {
+    .legal { padding: 110px 0 80px; }
+  }
+</style>

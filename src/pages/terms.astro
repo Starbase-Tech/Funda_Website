@@ -1,0 +1,125 @@
+---
+import Legal from '../layouts/Legal.astro'
+import { COMPANY, EMAIL, PHONES, WHATSAPP } from '../data/contact'
+---
+
+<Legal
+  title="Terms and Conditions"
+  description="The terms that apply when a school uses Funda, including trials, fees, billing and data."
+  updated="26 October 2026"
+>
+  <p class="legal-lead">
+    These terms apply when a school uses Funda, the school management system provided by {COMPANY} ("we", "us",
+    "our"). By starting a trial or subscribing, the school ("you", "your") agrees to them. Please read them with our
+    <a href="/privacy">Privacy Policy</a>.
+  </p>
+
+  <h2>1. The service</h2>
+  <p>
+    Funda is an online system for managing learner records, fees, receipts, statements, reports and staff access. We
+    may improve, change or add features over time. If we remove a feature you rely on, we will tell you in advance.
+  </p>
+
+  <h2>2. Free trial</h2>
+  <ul>
+    <li>Every school can try Funda free for one month, with full access.</li>
+    <li>We set you up at no cost during the trial. You pay nothing upfront.</li>
+    <li>
+      At the end of the trial you choose whether to subscribe. If you don't, you owe nothing, and we handle your
+      records as set out in section 8.
+    </li>
+  </ul>
+
+  <h2>3. Fees and billing</h2>
+  <ul>
+    <li>Fees are charged in US dollars, per school, per term, unless we agree otherwise in writing.</li>
+    <li>Fees are billed at the start of each term. You may instead pay for a full year at the discounted annual rate.</li>
+    <li>Your size band is set by the number of active learners at the start of each term.</li>
+    <li>
+      A once-off setup fee of $100 covers loading your data and a training day at your school. It is only charged if
+      you subscribe after your trial, and appears on your first invoice. Travel costs for schools further away are
+      quoted and agreed before the visit.
+    </li>
+    <li>Usage-based extras, such as SMS messages once available, are charged separately according to use.</li>
+    <li>Invoices are payable within 14 days unless your invoice states otherwise.</li>
+  </ul>
+
+  <h2>4. Price changes</h2>
+  <p>
+    Prices shown on our website are subject to change. If we change our prices, we will give you at least 30 days'
+    notice. Any period you have already paid for stays at the price you paid; the new price applies from your next
+    billing period.
+  </p>
+
+  <h2>5. Your account and staff</h2>
+  <ul>
+    <li>You decide which staff get accounts and what each person can see and do.</li>
+    <li>
+      You are responsible for keeping passwords private and for activity on your school's accounts. Tell us straight
+      away if you think an account has been misused.
+    </li>
+    <li>You must not use Funda for anything unlawful, or try to access data belonging to another school.</li>
+  </ul>
+
+  <h2>6. Your data</h2>
+  <p>
+    Your school owns its data, including learner, parent, staff and fee records. We only use it to provide and support
+    Funda for you, as described in our <a href="/privacy">Privacy Policy</a>. You are responsible for making sure you
+    are allowed to record the information you put into Funda, including information about learners and their parents
+    or guardians.
+  </p>
+  <p>
+    You can ask us for an export of your data at any time while you are subscribed, and for 90 days after your
+    subscription ends.
+  </p>
+
+  <h2>7. Accuracy of records</h2>
+  <p>
+    Funda helps you keep accurate records, but the school remains responsible for checking the information entered,
+    including payments recorded and receipts issued. Funda does not replace your school's own financial controls.
+  </p>
+
+  <h2>8. Lapsed subscriptions and cancellation</h2>
+  <ul>
+    <li>You can stop your subscription at the end of any paid period by telling us in writing.</li>
+    <li>
+      If a subscription lapses or a trial ends without subscribing, access is paused and your records are kept safe.
+      They come back as soon as you subscribe or renew.
+    </li>
+    <li>
+      If you have not renewed within 12 months, we may permanently delete your school's records. We will contact you
+      at least 30 days before doing so.
+    </li>
+    <li>Fees already paid are not refundable for the period they cover, unless the law requires otherwise.</li>
+  </ul>
+
+  <h2>9. Availability and support</h2>
+  <p>
+    We work to keep Funda available and to fix problems quickly, but we cannot promise it will never be interrupted,
+    for example during maintenance, internet or power outages, or events outside our control. We will give notice of
+    planned maintenance where we can.
+  </p>
+
+  <h2>10. Limitation of liability</h2>
+  <p>
+    As far as the law allows, we are not liable for indirect or consequential loss, such as loss of income. Our total
+    liability to you for any claim is limited to the fees you paid us in the 12 months before the claim arose. Nothing
+    in these terms limits liability that cannot be limited by law.
+  </p>
+
+  <h2>11. Changes to these terms</h2>
+  <p>
+    We may update these terms from time to time. We will post the new version on this page and tell subscribed schools
+    about important changes before they take effect.
+  </p>
+
+  <h2>12. Governing law</h2>
+  <p>These terms are governed by the laws of Zimbabwe, and disputes fall under the jurisdiction of Zimbabwean courts.</p>
+
+  <h2>13. Contact us</h2>
+  <ul>
+    <li>Email: <a href={`mailto:${EMAIL}`}>{EMAIL}</a></li>
+    <li>WhatsApp: <a href={`https://wa.me/${WHATSAPP.number}`} target="_blank" rel="noopener">{WHATSAPP.label}</a></li>
+    {PHONES.map((p) => <li>Phone: <a href={`tel:${p.tel}`}>{p.label}</a></li>)}
+  </ul>
+</Legal>

@@ -1,10 +1,9 @@
 ---
 import SectionBg from './SectionBg.astro'
 import classroomBright from '../assets/backgrounds/classroom-bright.jpg'
+import { EMAIL, WHATSAPP as WA } from '../data/contact'
 
-// Contact details — replace with the real ones before launch.
-const EMAIL = 'info@funda360.africa'
-const WHATSAPP = '263778330936'
+const WHATSAPP = WA.number
 
 const steps = [
   ['We set up your school', 'Your own web address and private database, ready the same week.'],

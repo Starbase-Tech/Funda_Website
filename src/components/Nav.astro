@@ -1,17 +1,20 @@
 ---
 import Logo from './Logo.astro'
+
+// Section links point back to the home page when shown on other pages
+const home = Astro.url.pathname === '/' ? '' : '/'
 ---
 
 <header class="nav" id="nav">
   <div class="wrap nav-inner">
-    <a href="#top" class="nav-logo" aria-label="Funda home"><Logo height={34} /></a>
+    <a href={home ? '/' : '#top'} class="nav-logo" aria-label="Funda home"><Logo height={34} /></a>
     <nav class="nav-links" aria-label="Main">
-      <a href="#tour">Product</a>
-      <a href="#roles">Permissions</a>
-      <a href="#features">Features</a>
-      <a href="#pricing">Pricing</a>
+      <a href={`${home}#tour`}>Product</a>
+      <a href={`${home}#roles`}>Permissions</a>
+      <a href={`${home}#features`}>Features</a>
+      <a href={`${home}#pricing`}>Pricing</a>
     </nav>
-    <a href="#contact" class="btn nav-cta">Book a demo</a>
+    <a href={`${home}#contact`} class="btn nav-cta">Book a demo</a>
   </div>
 </header>
 
