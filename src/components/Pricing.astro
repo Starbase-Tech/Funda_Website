@@ -1,0 +1,255 @@
+---
+// Prices are in USD per school. Keep them in step with product-management/sales-playbook.md §6 in the funda repo.
+const YEAR_DISCOUNT = 0.1
+
+const bands = [
+  { name: 'Small', learners: 'Up to 300 learners', term: 150 },
+  { name: 'Medium', learners: '301 to 800 learners', term: 250 },
+  { name: 'Large', learners: '801+ learners', term: 350 },
+].map((b) => {
+  const full = b.term * 3
+  const year = Math.round(full * (1 - YEAR_DISCOUNT))
+  return { ...b, year, save: full - year }
+})
+
+const included = [
+  'Learner records and class lists',
+  'Fees register in USD and ZiG',
+  'Receipts, statements and reports on your letterhead',
+  'Receipts with a verification code',
+  'Student notes, shown only to the right staff',
+  'Year end: promote, graduate and reactivate',
+  'A full audit trail of every change',
+  'Your own private database',
+  'Unlimited staff accounts',
+  'Training for your staff',
+]
+
+const soon = [
+  { name: 'Plus', items: 'Attendance, marks entry and report cards' },
+  { name: 'Pro', items: 'Parent portal, Ecocash payments and SMS to parents' },
+]
+
+const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>`
+---
+
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="pr-head" data-reveal>
+      <div>
+        <span class="kicker">Pricing</span>
+        <h2 class="display h2">From <em>$150</em> a term.<br />Priced by the size of your school.</h2>
+      </div>
+      <p>
+        One flat fee per school, per term. No charge per teacher or per user, so every member of staff can have an
+        account.
+      </p>
+    </div>
+
+    <div class="pr-trial" data-reveal>
+      <span class="pr-trial-badge" aria-hidden="true">
+        <b>1</b>
+        <small>month<br />free</small>
+      </span>
+      <div class="pr-trial-copy">
+        <h3>Try Funda free for a month.</h3>
+        <p>
+          Full access to everything, with your own learners and your own fees. We set you up for free, and you pay
+          nothing upfront. If you stay, the setup fee goes on your first invoice. If you don't, you owe nothing.
+        </p>
+      </div>
+      <a class="btn" href="#contact">
+        Start a free trial
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+    </div>
+
+    <div class="pr-toggle" role="group" aria-label="Billing period" data-reveal>
+      <span class="pr-pill" aria-hidden="true"></span>
+      <button data-period="term" aria-pressed="true">Per term</button>
+      <button data-period="year" aria-pressed="false">Pay for the year <b>−10%</b></button>
+    </div>
+
+    <div class="pr-grid">
+      {
+        bands.map((b, i) => (
+          <article class="pr-card" data-reveal style={`--d:${i * 0.08}s`}>
+            <h3>{b.name}</h3>
+            <p class="pr-size">{b.learners}</p>
+            <div class="pr-price">
+              <span class="pr-term">
+                <b>${b.term}</b>
+                <small>/ term</small>
+              </span>
+              <span class="pr-year">
+                <b>${b.year}</b>
+                <small>/ year</small>
+              </span>
+            </div>
+            <p class="pr-note">
+              <span class="pr-term">or ${b.year} for the whole year</span>
+              <span class="pr-year">3 terms, save ${b.save}</span>
+            </p>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="pr-inc" data-reveal>
+      <h3>Every school gets</h3>
+      <ul>
+        {included.map((t) => (
+          <li>
+            <Fragment set:html={check} />
+            {t}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="pr-extra">
+      <div class="pr-soon" data-reveal>
+        <span class="pr-tag">Coming soon</span>
+        <h3>Optional add-ons</h3>
+        {
+          soon.map((s) => (
+            <p>
+              <b>{s.name}:</b> {s.items}.
+            </p>
+          ))
+        }
+        <p class="pr-dim">Priced when they launch. Schools already on Funda hear first.</p>
+      </div>
+      <div class="pr-founding" data-reveal style="--d:.08s">
+        <span class="pr-tag">For our first 10 schools</span>
+        <h3>Founding school offer</h3>
+        <p>Keep your price for two years, and we waive the once-off setup fee.</p>
+      </div>
+    </div>
+
+    <div class="pr-terms" data-reveal>
+      <h4>Terms</h4>
+      <ul>
+        <li>
+          Every school starts with a one-month free trial with full access. When it ends, your records stay safe and
+          you choose whether to subscribe.
+        </li>
+        <li>Prices are in US dollars, per school, per term, and are billed at the start of each term.</li>
+        <li>Your size band is set by the number of active learners at the start of the term.</li>
+        <li>
+          A once-off setup fee of $100 covers loading your data and a training day for your staff at your school. It's
+          only charged if you subscribe after your trial, on your first invoice. Founding schools don't pay it. For schools further away, travel costs are quoted upfront and agreed before we
+          book the visit.
+        </li>
+        <li>SMS messages, when they launch, are charged by usage.</li>
+        <li>
+          If prices change, we tell you in advance, and you keep your current price until the end of the period
+          you've paid for.
+        </li>
+        <li>Your records stay safe if a subscription lapses, and come back as soon as you renew.</li>
+        <li>
+          Colleges, groups of schools and custom work: <a href="#contact">talk to us</a> for a quote.
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.pricing')!
+  const btns = root.querySelectorAll<HTMLButtonElement>('[data-period]')
+  btns.forEach((b) =>
+    b.addEventListener('click', () => {
+      const year = b.dataset.period === 'year'
+      root.classList.toggle('yearly', year)
+      btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)))
+    }),
+  )
+</script>
+
+<style is:global>
+  .pricing { position: relative; padding: 140px 0; background: linear-gradient(180deg, var(--paper), var(--tint)); }
+  .pr-head { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: end; margin-bottom: 48px; }
+  .pr-head .h2 { margin-top: 20px; }
+  .pr-head p { color: var(--muted); font-size: 17px; }
+
+  /* Free trial */
+  .pr-trial { display: flex; align-items: center; gap: 28px; padding: 26px 30px; margin-bottom: 40px; border-radius: 22px; background: var(--card); box-shadow: inset 0 0 0 2px var(--blue), 0 24px 48px -36px rgba(8, 119, 255, 0.5); }
+  .pr-trial-badge { flex: none; width: 92px; height: 92px; border-radius: 50%; display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--blue); color: #fff; }
+  .pr-trial-badge b { font-family: var(--display); font-weight: 700; font-size: 40px; line-height: 1; }
+  .pr-trial-badge small { font-size: 11.5px; font-weight: 600; line-height: 1.15; text-transform: uppercase; letter-spacing: 0.04em; }
+  .pr-trial-copy { flex: 1; }
+  .pr-trial h3 { font-family: var(--display); font-weight: 700; font-size: 22px; letter-spacing: -0.025em; }
+  .pr-trial p { color: var(--muted); font-size: 15.5px; margin-top: 6px; max-width: 640px; }
+  .pr-trial .btn { flex: none; }
+
+  /* Term / year toggle */
+  .pr-toggle { position: relative; display: inline-grid; grid-template-columns: 1fr 1fr; padding: 4px; border-radius: 999px; background: var(--card); box-shadow: inset 0 0 0 1px var(--paper-line); margin-bottom: 24px; }
+  .pr-toggle button { position: relative; z-index: 1; height: 40px; padding: 0 18px; font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; transition: color 0.3s; }
+  .pr-toggle button[aria-pressed='true'] { color: #fff; }
+  .pr-toggle b { font-weight: 600; color: var(--green); transition: color 0.3s; }
+  .pr-toggle button[aria-pressed='true'] b { color: #fff; }
+  .pr-pill { position: absolute; left: 4px; top: 4px; bottom: 4px; width: calc(50% - 4px); border-radius: 999px; background: var(--blue); transition: transform 0.5s var(--ease); }
+  .yearly .pr-pill { transform: translateX(100%); }
+
+  /* Size bands */
+  .pr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .pr-card { padding: 30px; border-radius: 22px; background: var(--card); box-shadow: 0 0 0 1px var(--paper-line), 0 24px 48px -36px rgba(8, 43, 112, 0.35); }
+  .pr-card h3 { font-family: var(--display); font-weight: 700; font-size: 22px; letter-spacing: -0.025em; }
+  .pr-size { color: var(--muted); font-size: 15px; margin-top: 4px; }
+  .pr-price { display: grid; margin: 26px 0 8px; }
+  .pr-price > span { grid-area: 1 / 1; display: flex; align-items: baseline; gap: 6px; transition: opacity 0.35s, transform 0.45s var(--ease); }
+  .pr-price b { font-family: var(--display); font-weight: 700; font-size: 52px; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .pr-price small { color: var(--muted); font-size: 15px; }
+  .pr-note { display: grid; font-size: 14px; color: var(--muted); }
+  .pr-note > span { grid-area: 1 / 1; transition: opacity 0.35s; }
+  .pricing .pr-year { opacity: 0; transform: translateY(8px); }
+  .pr-note .pr-year { color: var(--green); font-weight: 500; }
+  .yearly .pr-term { opacity: 0; transform: translateY(-8px); }
+  .yearly .pr-year { opacity: 1; transform: none; }
+
+  /* Included */
+  .pr-inc { margin-top: 18px; padding: 30px; border-radius: 22px; background: var(--card); box-shadow: 0 0 0 1px var(--paper-line); }
+  .pr-inc h3, .pr-extra h3 { font-family: var(--display); font-weight: 700; font-size: 19px; letter-spacing: -0.02em; }
+  .pr-inc ul { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 32px; margin-top: 18px; }
+  .pr-inc li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; }
+  .pr-inc svg { flex: none; width: 18px; height: 18px; padding: 3px; margin-top: 2px; border-radius: 50%; background: var(--blue-soft); color: var(--blue); }
+
+  /* Add-ons + founding */
+  .pr-extra { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+  .pr-soon, .pr-founding { padding: 28px 30px; border-radius: 22px; }
+  .pr-soon { border: 1px dashed #c3cfe1; }
+  .pr-soon p { font-size: 15px; margin-top: 8px; }
+  .pr-dim { color: var(--muted); font-size: 14px !important; }
+  .pr-founding { background: var(--ink); color: #fff; }
+  .pr-founding p { color: rgba(255, 255, 255, 0.78); font-size: 15px; margin-top: 8px; }
+  .pr-tag { display: inline-block; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; }
+  .pr-founding .pr-tag { color: #8cc0ff; }
+
+  /* Terms */
+  .pr-terms { margin-top: 40px; max-width: 860px; }
+  .pr-terms h4 { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .pr-terms ul { margin-top: 12px; padding-left: 18px; display: grid; gap: 6px; font-size: 13.5px; color: var(--muted); }
+  .pr-terms a { color: var(--text); border-bottom: 1px solid var(--paper-line); }
+
+  @media (max-width: 960px) {
+    .pricing { padding: 100px 0; }
+    .pr-head { grid-template-columns: 1fr; gap: 20px; }
+    .pr-grid { grid-template-columns: 1fr; }
+    .pr-price { margin-top: 18px; }
+    .pr-extra { grid-template-columns: 1fr; }
+    .pr-trial { flex-wrap: wrap; gap: 20px; }
+    .pr-trial-copy { flex: 1 1 300px; }
+  }
+  @media (max-width: 640px) {
+    .pr-trial { padding: 24px; }
+    .pr-trial-badge { width: 72px; height: 72px; }
+    .pr-trial-badge b { font-size: 30px; }
+    .pr-trial-badge small { font-size: 10px; }
+  }
+  @media (max-width: 640px) {
+    .pr-inc ul { grid-template-columns: 1fr; }
+    .pr-card, .pr-inc { padding: 24px; }
+    .pr-toggle button { padding: 0 12px; font-size: 13px; }
+  }
+</style>

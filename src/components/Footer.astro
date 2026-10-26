@@ -11,9 +11,13 @@ import Logo from './Logo.astro'
         <a href="#tour">Product</a>
         <a href="#roles">Permissions</a>
         <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
         <a href="#contact">Contact</a>
       </nav>
-      <span>© {new Date().getFullYear()} Funda · Made in Zimbabwe</span>
+      <span class="foot-credit">
+        © {new Date().getFullYear()} Funda · Made in Zimbabwe ·
+        Powered by <a href="https://starbasetech.africa" target="_blank" rel="noopener">Starbase Technologies</a>
+      </span>
     </div>
   </div>
 </footer>
@@ -35,4 +39,9 @@ import Logo from './Logo.astro'
   .foot-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: 14px; padding-top: 28px; border-top: 1px solid var(--paper-line); }
   .foot-row nav { display: flex; gap: 26px; }
   .foot-row nav a:hover { color: var(--text); }
+  .foot-credit a { color: var(--text); font-weight: 500; border-bottom: 1px solid var(--paper-line); transition: border-color 0.2s; }
+  .foot-credit a:hover { border-color: var(--blue); }
+  @media (max-width: 760px) {
+    .foot-row nav { flex-wrap: wrap; gap: 14px 22px; }
+  }
 </style>
